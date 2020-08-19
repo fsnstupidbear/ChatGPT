@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./layui/css/layui.css">
+        <script src="./layui/layui.js"></script>
+        <title>Document</title>
+        <style>
+            .box {
+                width: 1500px;
+                height: 1000px;
+            }
+
+            .left {
+                float: left;
+                height: 100%;
+                width: 20%;
+            }
+
+            .last {
+                margin-bottom: 0;
+            }
+
+            .left input {
+                width: 235px;
+                height: 2.7%;
+                /* margin-left: 350px; */
+                margin-bottom: 20px;
+            }
+
+            .right {
+                float: left;
+                width: 80%;
+                height: 100%;
+            }
+
+            textarea {
+                float: left;
+                height: 190px;
+                /* margin-top: 40px;
+                margin-left: 80px; */
+                border: solid 3px purple;
+                resize: none;
+            }
+
+            .pk {
+                display: inline-block;
+            }
+
+            .first {
+                display: inline-block;
+                margin-left: 100px;
+            }
+
+            .second {
+                display: inline-block;
+                margin-left: 10px;
+            }
+
+            .third {
+                display: inline-block;
+                margin-left: 100px;
+            }
+
+            .four {
+                display: inline-block;
+                margin-top: 0;
+                margin-left: 20px;
+            }
+
+            .dg {
+                float: left;
+                margin-top: 0px;
+                margin-left: 0px;
+                width: 242px;
+                color: blue;
+            }
+
+            .clear {
+                float: right;
+                margin-top: 10px;
+                border: none;
+                background-color: #fff;
+                color: blue;
+                margin-bottom: 2px;
+            }
+
+            .score {
+                margin-left: 0px;
+            }
+
+            .first div {
+                text-align: center;
+            }
+
+            .second div {
+                text-align: center;
+            }
+
+            .third div {
+                text-align: center;
+            }
+
+            .four div {
+                text-align: center;
+            }
+
+            .four button {
+                opacity: 0;
+            }
+
+            .right>div {
+                /* margin-top: 5px; */
+                margin-right: 200px;
+            }
+
+            .right button {
+                margin-top: 15px;
+                width: 220px;
+            }
+
+            .right .first input {
+                margin-top: 15px;
+                width: 51px;
+            }
+
+            .fudong {
+                width: 243px;
+                overflow: hidden;
+            }
+
+            .red {
+                border: solid 3px #f00;
+            }
+
+            .blue {
+                border: solid 3px blue;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="box">
+            <div class="left">
+                <div class="fudong">
+                    <button class="clear">清空</button>
+                </div>
+                <form th:action="@{/FVF/dg}" method="post">
+                <input type="text" id="per0">
+                <input type="text" id="per1">
+                <input type="text" id="per2">
+                <input type="text" id="per3">
+                <input type="text" id="per4">
+                <input type="text" id="per5">
+                <input type="text" id="per6">
+                <input type="text" id="per7" class="last">
+
+                <div>
+                    <button type="submit" class="dg">分组</button>
+                </div>
+                </form>
+            </div>
+            <div class="right">
+
+                <div class="first">
+                    <div>红队</div><textarea name="" id="" cols="30" rows="10" class="red"></textarea>
+                    <div> <span>红队：蓝队比分</span> <input type="text">:<input type="text"></div>
+                </div>
+                <div class="second">
+                    <div>记分表</div><textarea name="" id="" cols="30" rows="10"></textarea>
+                    <div> <button>账单清零</button></div>
+                </div>
+                <div class="third">
+                    <div>蓝队</div><textarea name="" id="" cols="30" rows="10" class="blue"></textarea>
+                    <div> <button>结算</button></div>
+                </div>
+                <div class="four">
+                    <div>结账方案</div><textarea name="" id="" cols="30" rows="10"></textarea>
+                    <div> <button>&nbsp</button></div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
