@@ -8,6 +8,6 @@ public class LoginController {
 
     @RequestMapping("/")
     public String hello(Model model){
-        return "FsnTeam";
+        return "index";
     }
 }

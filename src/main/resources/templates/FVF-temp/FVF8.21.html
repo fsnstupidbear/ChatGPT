@@ -103,7 +103,7 @@
 
 <!--红队分组-->
 
-<form action="/FVF/checkScore" class="layui-form1" method="post">
+<form action="/" class="layui-form1" method="post">
     <div class="layui-form-item">
         <div class="layui-input-inline">
             <table class="layui-table" >
@@ -134,12 +134,12 @@
                 <tr>
                     <td>
                         <span style="float: left;text-align: center;height: 100%;padding-top:10px">红蓝比分:</span>
-                        <div class="layui-form-item" style="width:60%;float:left;margin-left: 20px;">
-                            <select name="score" required lay-verify="required" class="layui-input" autocomplete="off">
-                                <option value="20">红:蓝 2:0</option>
-                                <option value="02">红:蓝 0:2</option>
-                                <option value="21">红:蓝 2:1</option>
-                                <option value="12">红:蓝 1:2</option>
+                        <div class="layui-input-inline" style="width:60%;float:left;margin-left: 20px;">
+                            <select name="bookType" required lay-verify="required" class="layui-input" autocomplete="off">
+                                <option value="20">红：蓝 2：0</option>
+                                <option value="02">红：蓝 0：2</option>
+                                <option value="21">红：蓝 2：1</option>
+                                <option value="12">红：蓝 1：2</option>
                             </select>
                         </div>
                         <input type="submit" class="layui-btn" style="float: right;">
@@ -166,14 +166,11 @@
                         <td><div th:text="${item.username}"></div></td><td><div th:text="${item.username!=null?item.points:''}"></div></td>
                     </tr>
                 </div>
-                <tr>
-                    <td colspan="2"><input type="submit" value="全部清空" class="layui-btn"></td>
-                </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
+    <input type="submit" value="全部清空" class="layui-btn">
 </form>
 
 <script>

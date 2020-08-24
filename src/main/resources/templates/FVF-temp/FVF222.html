@@ -1,0 +1,221 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script charset="UTF-8" src="/layui/layui.js"></script>
+    <style>
+    .layui-form{
+        display: inline-block;
+        width: 20%;
+    }
+    .layui-form2{
+        display: inline-block;
+        width: 35%;
+        margin-top: 50px;
+        margin-left: 50px;
+    }
+    .layui-form2 .layui-form-item{
+        margin-bottom: 180px;
+    }
+    .layui-form2 .layui-input-inline{
+        width: 80%;
+    }
+    .layui-form1{
+        display: inline-block;
+        width: 33%;
+        margin-left: 50px;
+    }
+    .layui-form1 .layui-form-item{
+        margin-bottom: 100px;
+    }
+    .layui-form1 .layui-input-inline{
+        width: 100%;
+    }
+    .layui-form{
+        font-size:0;
+    }
+    </style>
+</head>
+<body>
+<h1>4V4分组</h1>
+<form action="/FVF/dg" class="layui-form" method="post">
+
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <table class="layui-table" >
+                <thead>
+                <tr>
+                    <th>分组名单</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><div class="layui-input-inline">
+                            <input type="text" name="per0" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                        </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per1" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per2" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per3" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per4" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per5" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per6" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><div class="layui-input-inline">
+                        <input type="text" name="per7" required  lay-verify="required" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+
+<!--红队分组-->
+<form action="/FVF/dg" class="layui-form1" method="post">
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <table class="layui-table" >
+                <thead>
+                <tr>
+                    <th>红队</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><div class="layui-input-inline">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!--蓝队分组-->
+
+    <!-- <input type="submit" value="分组" class="layui-btn"> -->
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <table class="layui-table" >
+                <thead>
+                <tr>
+                    <th>蓝队</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+<!--    积分表-->
+<form action="/FVF/dg" class="layui-form2" method="post">
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <table class="layui-table" >
+                <thead>
+                <tr>
+                    <th colspan="2">积分表</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        // form.on('submit(formDemo)', function(data){
+        //     layer.msg(JSON.stringify(data.field));
+        //     return false;
+        // });
+    });
+</script>
+<script type="text/javascript" charset="UTF-8">
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#date' //指定元素
+        });
+    });
+</script>
+</body>
+</html>
