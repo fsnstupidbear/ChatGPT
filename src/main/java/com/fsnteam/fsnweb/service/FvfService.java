@@ -9,7 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public interface fvfService {
+public interface FvfService {
+
+    void clearPointsAndGroup();
+
+    //查询红队信息
+    String queryRed();
+
+    //查询蓝队信息
+    String queryBlue();
+
+    //查询全部积分表信息
+    List<PointsList> queryAllPoints();
 
     //按照所选比分结算
     void updateScore(String score);

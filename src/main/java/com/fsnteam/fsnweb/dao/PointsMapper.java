@@ -18,8 +18,11 @@ public interface PointsMapper {
     void deleteAll();
 
     //清空全部username
-    @Update("UPDATE FVF SET USERNAME= null")
+    @Update("UPDATE FVF SET USERNAME = null")
     void clearAllUsername();
+
+    @Update("update FVF set points = 0")
+    void clearAllPoints();
 
     //把新的分组名单写入积分表
     @UpdateProvider(type = PointsSQL.class,method = "insertUserName")

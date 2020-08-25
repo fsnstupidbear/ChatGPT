@@ -4,6 +4,10 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface TeamTempMapper {
+
+    @Update("update teamTemp set identifier =''")
+    void clearAllInentifier();
+
     //查询红队随机分组编号
     @Select("select identifier from teamTemp where team='red'")
     String queryRed();

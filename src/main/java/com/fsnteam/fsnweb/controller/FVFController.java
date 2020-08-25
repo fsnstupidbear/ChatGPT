@@ -4,7 +4,7 @@ import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
 import com.fsnteam.fsnweb.dao.PointsMapper;
 import com.fsnteam.fsnweb.dao.TeamTempMapper;
-import com.fsnteam.fsnweb.service.fvfService;
+import com.fsnteam.fsnweb.service.FvfService;
 import com.fsnteam.fsnweb.util.FVF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,12 +47,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/FVF")
 public class FVFController {
+
     @Autowired
-    fvfService fvfService;
-    @Autowired
-    PointsMapper pointsMapper;
-    @Autowired
-    TeamTempMapper teamTempMapper;
+    FvfService fvfService;
 
     /**
      * 结算当前场次
@@ -71,21 +68,22 @@ public class FVFController {
 
     @RequestMapping("/")
     public String show(Model model){
-        List<PointsList> pointsList = pointsMapper.queryAll();
+        List<PointsList> pointsList = fvfService.queryAllPoints();
         //把字符串转换为字符数组再转换为整型数组
         //取得红队随机分组结果，数组存储
-        int[] redTeam = FVF.charArrayToIntArray(teamTempMapper.queryRed().toCharArray());
+        int[] redTeam = FVF.charArrayToIntArray(fvfService.queryRed().toCharArray());
         //取得蓝队随机分组结果，数组存储
-        int[] blueTeam = FVF.charArrayToIntArray(teamTempMapper.queryBlue().toCharArray());
+        int[] blueTeam = FVF.charArrayToIntArray(fvfService.queryBlue().toCharArray());
         //返回给前端
         model.addAttribute("redTeam",redTeam);
         model.addAttribute("blueTeam",blueTeam);
         model.addAttribute("pointsList",pointsList);
         return "FVF";
     }
-    @RequestMapping("/clear")
-    public void clear(){
-
+    @RequestMapping("/clearAll")
+    public String clear(){
+        fvfService.clearPointsAndGroup();
+        return "redirect:/FVF/";
     }
     /**
      * 取得页面值后先判断是否为空,判断需要几个随机数

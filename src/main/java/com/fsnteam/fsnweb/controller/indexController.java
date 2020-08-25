@@ -11,4 +11,9 @@ public class indexController {
     public String fvf(Model model){
         return "FVF";
     }
+
+    @RequestMapping("/homePage")
+    public String homePage(){
+        return "FsnTeam";
+    }
 }

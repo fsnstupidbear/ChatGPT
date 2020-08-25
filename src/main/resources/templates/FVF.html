@@ -94,9 +94,14 @@
                         <input type="text" name="per7" th:value="${pointsList.get(7).username}" placeholder="请输入ID" autocomplete="off" class="layui-input">
                     </div></td>
                 </tr>
+                <tr>
+                    <td>
+                        <input type="submit" class="layui-btn" value="分组">
+                    </td>
+                </tr>
                 </tbody>
             </table>
-            <input type="submit" class="layui-btn" value="分组">
+
         </div>
     </div>
 </form>
@@ -134,7 +139,7 @@
                 <tr>
                     <td>
                         <span style="float: left;text-align: center;height: 100%;padding-top:10px">红蓝比分:</span>
-                        <div class="layui-form-item" style="width:60%;float:left;margin-left: 20px;">
+                        <div style="width:60%;float:left;margin-left: 20px;">
                             <select name="score" required lay-verify="required" class="layui-input" autocomplete="off">
                                 <option value="20">红:蓝 2:0</option>
                                 <option value="02">红:蓝 0:2</option>
@@ -150,7 +155,7 @@
     </div>
 </form>
 <!--    积分表-->
-<form action="/" class="layui-form2" method="post">
+<form action="/FVF/clearAll" class="layui-form2" method="post">
     <div class="layui-form-item">
         <div class="layui-input-inline">
             <table class="layui-table" >

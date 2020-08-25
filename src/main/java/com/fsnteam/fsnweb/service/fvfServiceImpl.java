@@ -4,7 +4,6 @@ import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
 import com.fsnteam.fsnweb.dao.PointsMapper;
 import com.fsnteam.fsnweb.dao.TeamTempMapper;
-import com.fsnteam.fsnweb.service.fvfService;
 import com.fsnteam.fsnweb.util.FVF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +11,38 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class fvfServiceImpl implements fvfService {
+public class fvfServiceImpl implements FvfService {
 
     @Autowired
     PointsMapper pointsMapper;
 
     @Autowired
     TeamTempMapper teamTempMapper;
+
+    //清空积分表和分组
+    @Override
+    public void clearPointsAndGroup() {
+        pointsMapper.clearAllPoints();
+        System.out.println("clearAllPoints成功");
+        teamTempMapper.clearAllInentifier();
+        System.out.println("clearAllInentifier成功");
+    }
+
+    @Override
+    public String queryRed() {
+        return teamTempMapper.queryRed();
+    }
+
+    @Override
+    public String queryBlue() {
+        return teamTempMapper.queryBlue();
+    }
+
+    //查询积分表全部信息
+    @Override
+    public List<PointsList> queryAllPoints() {
+        return pointsMapper.queryAll();
+    }
 
     @Override
     public void updateScore(String score) {

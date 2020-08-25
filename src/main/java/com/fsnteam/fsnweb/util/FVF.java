@@ -70,10 +70,13 @@ public class FVF {
     }
     //把字符数组转换成整型数组
         public static int[] charArrayToIntArray (char[] s){
-            int[] n = new int[s.length];
+            int[] n=null;
+        if(s.length!=0) {
+            n = new int[s.length];
             for (int i = 0; i < s.length; i++) {
-                n[i] = Integer.parseInt( String.valueOf(s[i]));
+                n[i] = Integer.parseInt(String.valueOf(s[i]));
             }
+        }
             return n;
         }
     }
