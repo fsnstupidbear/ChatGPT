@@ -60,7 +60,6 @@ public class FVFController {
     public String checkScore(HttpServletRequest request){
         //取得比分数据
         String score=request.getParameter("score");
-        System.out.println(score);
         //计算积分
         fvfService.updateScore(score);
         return "redirect:/FVF/";
@@ -74,10 +73,13 @@ public class FVFController {
         int[] redTeam = FVF.charArrayToIntArray(fvfService.queryRed().toCharArray());
         //取得蓝队随机分组结果，数组存储
         int[] blueTeam = FVF.charArrayToIntArray(fvfService.queryBlue().toCharArray());
+        //取得倒序排序的积分表
+        List<PointsList> pointsDesc = fvfService.queryPointsDesc();
         //返回给前端
         model.addAttribute("redTeam",redTeam);
         model.addAttribute("blueTeam",blueTeam);
         model.addAttribute("pointsList",pointsList);
+        model.addAttribute("pointsDesc",pointsDesc);
         return "FVF";
     }
     @RequestMapping("/clearAll")

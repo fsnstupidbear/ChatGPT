@@ -11,6 +11,8 @@ import java.util.Map;
 @Service
 public interface FvfService {
 
+    List<PointsList> queryPointsDesc();
+
     void clearPointsAndGroup();
 
     //查询红队信息

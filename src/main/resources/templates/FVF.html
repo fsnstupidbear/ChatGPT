@@ -3,6 +3,11 @@
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script charset="UTF-8" src="/layui/layui.js"></script>
     <style>
+        .layui-table th {
+            text-align: center;
+        }
+        td {text-align:center}
+
         .layui-form{
             display: inline-block;
             width: 20%;
@@ -96,7 +101,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" class="layui-btn" value="分组">
+                        <input type="submit" class="layui-btn" value="分组" style="width:190px">
                     </td>
                 </tr>
                 </tbody>
@@ -111,7 +116,7 @@
 <form action="/FVF/checkScore" class="layui-form1" method="post">
     <div class="layui-form-item">
         <div class="layui-input-inline">
-            <table class="layui-table" >
+            <table class="layui-table" align="center">
                 <thead>
                 <tr>
                     <th>红队</th>
@@ -158,21 +163,24 @@
 <form action="/FVF/clearAll" class="layui-form2" method="post">
     <div class="layui-form-item">
         <div class="layui-input-inline">
-            <table class="layui-table" >
+            <table class="layui-table" align="center">
                 <thead>
                 <tr>
-                    <th colspan="2">积分表</th>
+                    <th>排名</th><th>ID</th><th>积分</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!--                使用thymeleaf的遍历列表-->
-                <div th:each="item:${pointsList}">
+                <div th:each="item,itemStart:${pointsDesc}">
                     <tr>
-                        <td><div th:text="${item.username}"></div></td><td><div th:text="${item.username!=null?item.points:''}"></div></td>
+                        <!--自增序号-->
+                        <td th:text="${itemStart.count}"></td>
+                        <td><div th:text="${item.username}"></div></td>
+                        <td><div th:text="${item.username!=null?item.points:''}"></div></td>
                     </tr>
                 </div>
                 <tr>
-                    <td colspan="2"><input type="submit" value="全部清空" class="layui-btn"></td>
+                    <td colspan="3"><input type="submit" value="全部清空" class="layui-btn" style="width: 414px;"></td>
                 </tr>
                 </tbody>
             </table>

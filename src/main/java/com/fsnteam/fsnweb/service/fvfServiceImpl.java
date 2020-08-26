@@ -19,6 +19,11 @@ public class fvfServiceImpl implements FvfService {
     @Autowired
     TeamTempMapper teamTempMapper;
 
+    @Override
+    public List<PointsList> queryPointsDesc() {
+        return pointsMapper.queryPointsDesc();
+    }
+
     //清空积分表和分组
     @Override
     public void clearPointsAndGroup() {
@@ -52,26 +57,39 @@ public class fvfServiceImpl implements FvfService {
                 //红队2比0
             case "20":
                 redTeam = FVF.charArrayToIntArray(teamTempMapper.queryRed().toCharArray());
-                pointsMapper.updateRedScore(3,redTeam);
+                if(redTeam!=null) {
+                    pointsMapper.updateRedScore(3, redTeam);
+                }
                 break;
                 //蓝队2比0
             case "02":
-                blueTeam = FVF.charArrayToIntArray(teamTempMapper.queryBlue().toCharArray());
-                pointsMapper.updateBlueScore(3,blueTeam);
+
+                    blueTeam = FVF.charArrayToIntArray(teamTempMapper.queryBlue().toCharArray());
+                if(blueTeam!=null) {
+                    pointsMapper.updateBlueScore(3, blueTeam);
+                }
                 break;
                 //红队2比1
             case "21":
                 redTeam = FVF.charArrayToIntArray(teamTempMapper.queryRed().toCharArray());
                 blueTeam = FVF.charArrayToIntArray(teamTempMapper.queryBlue().toCharArray());
-                pointsMapper.updateRedScore(2,redTeam);
-                pointsMapper.updateBlueScore(1,blueTeam);
+                if(redTeam!=null) {
+                    pointsMapper.updateRedScore(2, redTeam);
+                }
+                if(blueTeam!=null) {
+                    pointsMapper.updateBlueScore(1, blueTeam);
+                }
                 break;
                 //蓝队2比1
             case "12":
                 redTeam = FVF.charArrayToIntArray(teamTempMapper.queryRed().toCharArray());
                 blueTeam = FVF.charArrayToIntArray(teamTempMapper.queryBlue().toCharArray());
-                pointsMapper.updateRedScore(1,redTeam);
-                pointsMapper.updateBlueScore(2,blueTeam);
+                if(redTeam!=null) {
+                    pointsMapper.updateRedScore(1, redTeam);
+                }
+                if(blueTeam!=null) {
+                    pointsMapper.updateBlueScore(2, blueTeam);
+                }
                 break;
         }
     }
@@ -89,9 +107,7 @@ public class fvfServiceImpl implements FvfService {
     @Override
     public void insertUsername(List<DvdName> nameList) {
         //多次执行Update语句，直到把所有数据全部更新进FVF表
-        for (int i = 0; i < nameList.size(); i++) {
-            pointsMapper.insertUsername(nameList.get(i));
-        }
+            pointsMapper.insertUsername(nameList);
     }
 
     @Override

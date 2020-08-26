@@ -9,6 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface PointsMapper {
+
+    //查询倒序积分表
+    @Select("select id,username,points from FVF order by points desc")
+    List<PointsList> queryPointsDesc();
+
     //查询积分表全部信息
     @Select("select id,username,points from FVF")
     List<PointsList> queryAll();
@@ -26,7 +31,7 @@ public interface PointsMapper {
 
     //把新的分组名单写入积分表
     @UpdateProvider(type = PointsSQL.class,method = "insertUserName")
-    void insertUsername(DvdName dvdName);
+    void insertUsername(@Param("nameList")List<DvdName> nameList);
 
     @Select("select count(userName) from FVF")
     int selectCountUserName();

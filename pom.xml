@@ -27,6 +27,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <!--项目的名称, Maven产生的文档用 -->
     <name>FsnWeb</name>
+    <packaging>jar</packaging>
     <!-- 项目的详细描述, Maven 产生的文档用。 当这个元素能够用HTML格式描述时（例如，CDATA中的文本会被解析器忽略，就可以包含HTML标
         签）。 -->
     <description>Fsn战队</description>
@@ -80,10 +81,18 @@
     <!-- 构建项目（打包生成可执行文件）需要的信息 -->
     <build>
         <!-- 项目使用的插件列表 。 -->
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
 <!--        及时更新target-->
