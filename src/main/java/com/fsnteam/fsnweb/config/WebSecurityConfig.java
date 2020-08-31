@@ -1,6 +1,8 @@
 package com.fsnteam.fsnweb.config;
 
+import com.fsnteam.fsnweb.service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,7 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /**
@@ -25,6 +30,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity//指定为Spring Security配置类
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Bean
+    UserDetailsService userService(){
+        return new UserSecurityService();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -39,6 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().sameOrigin();
     }
 
+    //加密Bcrypt
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
     /**
      * 允许访问静态资源
      * @param web
@@ -52,7 +66,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
-                .withUser("admin").password("$2a$10$Q21imUyxDeshQ2tQBUfJKuBHbmuyTsZYoCMRmGi5UcOIavevauZwS").roles("USER");
+        auth.userDetailsService(userService()).passwordEncoder(new BCryptPasswordEncoder());
     }
 }
