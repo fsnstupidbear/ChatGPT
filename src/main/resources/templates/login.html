@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <script type="text/javascript" src=./jquery-1.8.0.min.js></script>
 <script type="text/javascript" src=./layer-v3.1.1/layer/layer.js></script>  <!--弹层文件-->
@@ -42,7 +42,7 @@
 </head>
 <body class="body_bj">   <!--见login/css/style.css-->
 <div id="particles-js">
-	<form action="" name="form1" onsubmit="return check()" method="post">
+	<form th:action="@{/}" name="form1" onsubmit="return check()" method="post">
 		<div class="layadmin-user-login layadmin-user-display-show"
 			 id="LAY-user-login" style="display: none;">
 

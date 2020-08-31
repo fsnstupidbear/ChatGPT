@@ -80,7 +80,7 @@ public class FVFController {
         model.addAttribute("blueTeam",blueTeam);
         model.addAttribute("pointsList",pointsList);
         model.addAttribute("pointsDesc",pointsDesc);
-        return "FVF";
+        return "member/FVF";
     }
     @RequestMapping("/clearAll")
     public String clear(){

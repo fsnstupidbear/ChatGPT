@@ -76,7 +76,16 @@
             <artifactId>log4j-to-slf4j</artifactId>
             <version>2.8.2</version>
         </dependency>
-
+<!--SpringSecurity-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+<!--        Security使用Thymeleaf Security5特性-->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>
     </dependencies>
     <!-- 构建项目（打包生成可执行文件）需要的信息 -->
     <build>
