@@ -1,11 +1,10 @@
 package com.fsnteam.fsnweb.bean;
 
 import lombok.Data;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.management.relation.Role;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,13 +13,17 @@ public class User implements UserDetails {
     private String id;
     private String username;
     private String password;
-    private String role;
+    private List<UserRole> roles;
     private String isEnabled;
     private String vocation;
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (UserRole role:roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        }
         return authorities;
     }
 
