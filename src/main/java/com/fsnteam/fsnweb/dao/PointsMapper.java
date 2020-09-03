@@ -18,10 +18,6 @@ public interface PointsMapper {
     @Select("select id,username,points from FVF")
     List<PointsList> queryAll();
 
-    //删除全部积分表信息,未实现接口
-    @Delete("delete * from FVF")
-    void deleteAll();
-
     //清空全部username
     @Update("UPDATE FVF SET USERNAME = null")
     void clearAllUsername();

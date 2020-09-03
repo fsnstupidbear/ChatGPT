@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 public class UserRole {
-    private String id;
+    private String userID;
     private String name;
     private String role;
 }

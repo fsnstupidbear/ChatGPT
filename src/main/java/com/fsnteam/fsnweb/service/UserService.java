@@ -13,4 +13,10 @@ public interface UserService {
 
     //查询用户
     User selectUserById(String id);
+
+    //添加队员
+    void insertMember(User user);
+
+    //返回最新自增变量
+
 }

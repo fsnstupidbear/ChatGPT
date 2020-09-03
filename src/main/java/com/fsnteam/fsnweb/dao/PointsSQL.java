@@ -26,7 +26,6 @@ public class PointsSQL {
             buffer.append(nameList.get(i).getId()+""+((i==nameList.size()-1)?"":","));
         }
         buffer.append(");");
-        System.out.println(buffer.toString());
         return buffer.toString();
     }
 }

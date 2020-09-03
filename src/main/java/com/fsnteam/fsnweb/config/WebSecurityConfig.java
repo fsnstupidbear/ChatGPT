@@ -39,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/","/index/homePage").permitAll()
-                .antMatchers("/FVF/","/index/FVF").hasRole("captain")
+                .antMatchers("/FVF/","/index/FVF").hasRole("CAPTAIN")
+                .antMatchers("/captain/**").hasRole("CAPTAIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/").defaultSuccessUrl("/index/homePage")

@@ -33,4 +33,17 @@ public class UserServiceImpl implements UserService {
     public User selectUserById(String id) {
         return userMapper.selectUserById(id);
     }
+
+    /**
+     * 添加普通队员
+     * @param user
+     */
+    @Override
+    public void insertMember(User user) {
+        userMapper.insertUser(user);
+        UserRole userRole=new UserRole();
+        userRole.setUserID(user.getId());
+        userRole.setRole("ROLE_MEMBER");
+        userMapper.insertRole(userRole);
+    }
 }

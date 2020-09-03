@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+
+<form action="/member/insert" class="layui-form" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">ID：</label>
+        <div class="layui-input-inline">
+            <input name="username" lay-verify="required" placeholder="请输入队员ID" autocomplete="off" class="layui-input" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">职业：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="vocation" required  lay-verify="required" placeholder="请输入队员职业" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <input type="submit" value="添加" class="layui-btn">
+</form>
+</body>
+</html>
