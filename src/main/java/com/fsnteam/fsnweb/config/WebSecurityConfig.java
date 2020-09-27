@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/","/index/homePage").permitAll()
                 .antMatchers("/FVF/","/index/FVF").hasRole("CAPTAIN")
-                .antMatchers("/captain/**").hasRole("CAPTAIN")
+                .antMatchers("/admin/**").hasRole("CAPTAIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/").defaultSuccessUrl("/index/homePage")

@@ -28,9 +28,7 @@ public class fvfServiceImpl implements FvfService {
     @Override
     public void clearPointsAndGroup() {
         pointsMapper.clearAllPoints();
-        System.out.println("clearAllPoints成功");
         teamTempMapper.clearAllInentifier();
-        System.out.println("clearAllInentifier成功");
     }
 
     @Override
