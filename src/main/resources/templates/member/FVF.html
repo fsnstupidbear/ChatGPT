@@ -166,7 +166,7 @@
             <table class="layui-table" align="center">
                 <thead>
                 <tr>
-                    <th>排名</th><th>ID</th><th>积分</th>
+                    <th>排名</th><th>ID</th><th>积分</th><th>账单</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -177,10 +177,11 @@
                         <td th:text="${itemStart.count}"></td>
                         <td><div th:text="${item.username}"></div></td>
                         <td><div th:text="${item.username!=null?item.points:''}"></div></td>
+                        <td><div th:text="${item.checkMoney!=0?item.checkMoney:''}"></div></td>
                     </tr>
                 </div>
                 <tr>
-                    <td colspan="3"><input type="submit" value="全部清空" class="layui-btn" style="width: 414px;"></td>
+                    <td colspan="4"><input type="submit" value="全部清空" class="layui-btn" style="width: 414px;"></td>
                 </tr>
                 </tbody>
             </table>

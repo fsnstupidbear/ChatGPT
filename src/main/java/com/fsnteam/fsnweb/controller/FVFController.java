@@ -2,8 +2,6 @@ package com.fsnteam.fsnweb.controller;
 
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
-import com.fsnteam.fsnweb.dao.PointsMapper;
-import com.fsnteam.fsnweb.dao.TeamTempMapper;
 import com.fsnteam.fsnweb.service.FvfService;
 import com.fsnteam.fsnweb.util.FVF;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +73,12 @@ public class FVFController {
         int[] blueTeam = FVF.charArrayToIntArray(fvfService.queryBlue().toCharArray());
         //取得倒序排序的积分表
         List<PointsList> pointsDesc = fvfService.queryPointsDesc();
+        //        1111111111111111计算账单11111111111111111111111
+        List<Double> checkMoney= fvfService.checkMoney(pointsDesc);
+        //组装积分和账单
+        fvfService.mergePointsAndAccount(pointsDesc,checkMoney);
+        model.addAttribute("checkMoney",checkMoney);
+        //        1111111111111111计算账单11111111111111111111111
         //返回给前端
         model.addAttribute("redTeam",redTeam);
         model.addAttribute("blueTeam",blueTeam);

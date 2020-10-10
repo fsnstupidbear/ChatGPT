@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class indexController {
     @RequestMapping("/FVF")
     public String fvf(Model model){
-        return "/member/FVF";
+        return "member/FVF";
     }
 
     @RequestMapping("/homePage")
     public String homePage(){
-        return "/member/FsnTeam";
+        return "member/FsnTeam";
     }
 }

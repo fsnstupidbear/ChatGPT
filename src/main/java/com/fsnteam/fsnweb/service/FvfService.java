@@ -2,17 +2,17 @@ package com.fsnteam.fsnweb.service;
 
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
-import com.fsnteam.fsnweb.dao.PointsMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public interface FvfService {
 
+    //倒序查找当前积分表
     List<PointsList> queryPointsDesc();
 
+    //全部清空
     void clearPointsAndGroup();
 
     //查询红队信息
@@ -42,5 +42,11 @@ public interface FvfService {
     //随机生成8位随机数
     Integer[] randNums(int reqNum);
 
+    //分组红蓝队
     void divideRB(Integer[] nums);
+
+    //计算当前积分情况下的结账账单
+    List<Double> checkMoney(List<PointsList> pointsDesc);
+
+    List<PointsList> mergePointsAndAccount(List<PointsList> pointsDesc, List<Double> checkMoney);
 }
