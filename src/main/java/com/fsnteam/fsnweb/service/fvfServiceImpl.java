@@ -186,9 +186,6 @@ public class fvfServiceImpl implements FvfService {
         for (int i = 0; i < countUsername; i++) {
             points[i] = pointsDesc.get(i).getPoints();
         }
-        for (int i = 0; i < points.length; i++) {
-            System.out.println("积分：" + points[i]);
-        }
         //11111111111把list转换为数组111111111111111111
 
         /**
@@ -220,9 +217,6 @@ public class fvfServiceImpl implements FvfService {
             }
             //当前积分计算完成后把当前游标赋值给lastIndex
             lastIndex = index;
-        }
-        for (int i = 0; i < checkMoney.size(); i++) {
-            System.out.println(checkMoney.get(i));
         }
         return checkMoney;
     }
