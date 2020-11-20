@@ -3,7 +3,6 @@ package com.fsnteam.fsnweb.dao;
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
 import org.apache.ibatis.annotations.*;
-import org.w3c.dom.NameList;
 
 import java.util.List;
 

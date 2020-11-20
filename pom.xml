@@ -34,9 +34,42 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <!--        mybatisplus-->
+        <mp.version>3.4.0</mp.version>
+        <!--        Swagger-->
+        <swagger.version>2.7.0</swagger.version>
+        <!--        velocity-->
+        <velocity>2.2</velocity>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <!--        mybatis代码自动生成-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+<!--        自动生成代码模板引擎-->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -55,22 +88,23 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.2</version>
-        </dependency>
+        <!--        弃用原mybatis，改用mybatisplus-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mybatis.spring.boot</groupId>-->
+        <!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
+        <!--            <version>2.1.2</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--SpringSecurity-->
+        <!--SpringSecurity-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-<!--        Security使用Thymeleaf Security5特性-->
+        <!--        Security使用Thymeleaf Security5特性-->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
@@ -93,20 +127,20 @@
                 </configuration>
             </plugin>
         </plugins>
-<!--        及时更新target-->
-            <resources>
-                <resource>
-                    <directory>src/main/java</directory>
-                    <includes>
-                        <include>**/*.*</include>
-                    </includes>
-                </resource>
-                <resource>
-                    <directory>src/main/resources</directory>
-                    <includes>
-                        <include>**/*.*</include>
-                    </includes>
-                </resource>
-            </resources>
+        <!--        及时更新target-->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>
