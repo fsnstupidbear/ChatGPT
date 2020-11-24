@@ -30,6 +30,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity//指定为Spring Security配置类
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- swagger ui
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
+
     @Bean
     UserDetailsService userService(){
         return new UserSecurityService();
@@ -38,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/index/homePage").hasAnyRole("CAPTAIN","MEMBER")
                 .antMatchers("/FVF/","/index/FVF").hasRole("CAPTAIN")

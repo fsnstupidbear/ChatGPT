@@ -16,7 +16,7 @@ public class PointsSQL {
      */
     public String insertUserName(List<DvdName> nameList) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("update fsn.FVF\n" +
+        buffer.append("update FVF\n" +
                 "        set USERNAME =case ID");
         for (int i = 0; i < nameList.size(); i++) {
             buffer.append(" when "+i+" then '"+nameList.get(i).getUserName()+"'");

@@ -3,11 +3,18 @@ package com.fsnteam.fsnweb.util;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CodeGenerator {
@@ -31,12 +38,12 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir(scanner("请输入你的项目路径") + "");
+        gc.setOutputDir(scanner("你的项目路径") + "/src/main/java");
         gc.setAuthor("StupidBear");
         //是否打开资源管理器
         gc.setOpen(false);
         //重新生成时是否自动覆盖文件
-        gc.setFileOverride(false);
+        gc.setFileOverride(true);
         //实体属性 Swagger2 注解
          gc.setSwagger2(true);
          //%s为占位符，mp生成service层代码，默认接口名称第一个字母是I
@@ -49,7 +56,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://39.96.11.202:3306/fsn?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowMultiQueries=true");
+        dsc.setUrl("jdbc:mysql://39.96.11.202:3306/FsnTest?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowMultiQueries=true");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
@@ -60,17 +67,16 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.fsnteam.fsnweb");
+        pc.setParent("com.fsnteam");
         pc.setController("controller");
         pc.setService("service");
-        pc.setServiceImpl("serviceImpl");
+        pc.setServiceImpl("service");
         pc.setMapper("mapper");
         pc.setEntity("entity");
         mpg.setPackageInfo(pc);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-        //设置哪些表需要自动生成
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         //实体类名称驼峰命名
         strategy.setNaming(NamingStrategy.underline_to_camel);
