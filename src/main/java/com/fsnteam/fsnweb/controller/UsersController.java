@@ -1,8 +1,8 @@
 package com.fsnteam.fsnweb.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fsnteam.fsnweb.entity.Users;
-import com.fsnteam.fsnweb.handler.BussinessException;
 import com.fsnteam.fsnweb.handler.BussinessException;
 import com.fsnteam.fsnweb.service.UsersService;
 import com.fsnteam.fsnweb.util.Result;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,16 +24,27 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
+@CrossOrigin
 public class UsersController {
 
     @Autowired
     UsersService usersService;
 
-    @PostMapping("/getAllUsers")
+    /**
+     * 分页查询
+     * @return
+     */
+    @PostMapping(value = "/getAllUsers",produces="application/json;charset=UTF-8")
     @ApiOperation(value = "查询全部用户",notes = "")
-    public Result getAllUsers(){
-        List<Users> usersList = usersService.list();
-        return Result.success().data("users",usersList);
+    public Result getAllUsers(@RequestBody Map params){
+        //对用户进行分页，泛型中注入的为用户实体类
+        int current = (int) params.get("current");
+        int size = (int) params.get("size");
+        Page<Users> page = new Page<>(current,size);
+        Page<Users> userspage = usersService.page(page);
+        long total = userspage.getTotal();
+        List<Users> records = userspage.getRecords();
+        return Result.success().data("total",total).data("records",records);
     }
 
     @GetMapping("getUserById/{id}")

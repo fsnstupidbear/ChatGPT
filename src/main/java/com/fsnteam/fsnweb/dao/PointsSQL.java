@@ -5,9 +5,6 @@ import com.fsnteam.fsnweb.bean.DvdName;
 import java.util.List;
 
 public class PointsSQL {
-//    public String insertUserName(DvdName dvdName){
-//        return "update FVF set username='"+dvdName.getUserName()+"'where id='"+dvdName.getId()+"'";
-//    }
 
     /**
      * 大帅方法

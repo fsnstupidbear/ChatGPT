@@ -4,17 +4,15 @@ import com.fsnteam.fsnweb.service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * Copyright (C), 2019-2019, XXX有限公司
@@ -27,7 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * 作者姓名           修改时间           版本号              描述
  */
 @Configuration
-@EnableWebSecurity//指定为Spring Security配置类
+//指定为Spring Security配置类
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST = {
@@ -45,20 +44,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //处理未登录时返回Json为登录页面Html
+        AuthenticationEntryPoint authenticationEntryPoint = new CustomizeAuthenticationEntryPoint();
+
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/index/homePage").hasAnyRole("CAPTAIN","MEMBER")
+                .antMatchers("/users/getAllUsers").permitAll()
                 .antMatchers("/FVF/","/index/FVF").hasRole("CAPTAIN")
                 .antMatchers("/admin/**").hasRole("CAPTAIN")
+                .antMatchers("/FVF/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/").defaultSuccessUrl("/index/homePage")
                 .and()
                 .logout().permitAll()
                 .and()
+                .cors()
+                .and()
                 .csrf().disable()
-                .headers().frameOptions().sameOrigin();
+                .headers().frameOptions().sameOrigin()
+                //处理未登录时返回Json为登录页面Html
+                .and().exceptionHandling().
+                authenticationEntryPoint(authenticationEntryPoint)
+                ;
     }
 
     //加密Bcrypt

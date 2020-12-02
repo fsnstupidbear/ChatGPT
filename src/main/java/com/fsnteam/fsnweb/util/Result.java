@@ -53,8 +53,8 @@ public class Result {
         return result;
     }
 
-    public Result success(Boolean success){
-        this.setIsSuccess(success);
+    public Result isSuccess(Boolean isSuccess){
+        this.setIsSuccess(isSuccess);
         return this;
     }
 
