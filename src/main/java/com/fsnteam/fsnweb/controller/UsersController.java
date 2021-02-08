@@ -1,7 +1,10 @@
 package com.fsnteam.fsnweb.controller;
 
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fsnteam.fsnweb.bean.User;
+import com.fsnteam.fsnweb.bean.UserRole;
+import com.fsnteam.fsnweb.dao.UserMapper;
 import com.fsnteam.fsnweb.entity.Users;
 import com.fsnteam.fsnweb.handler.BussinessException;
 import com.fsnteam.fsnweb.service.UsersService;
@@ -11,12 +14,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author StupidBear
@@ -30,34 +32,44 @@ public class UsersController {
     @Autowired
     UsersService usersService;
 
+    @Autowired
+    UserMapper userMapper;
+
     /**
      * 分页查询
+     *
      * @return
      */
-    @PostMapping(value = "/getAllUsers",produces="application/json;charset=UTF-8")
-    @ApiOperation(value = "查询全部用户",notes = "")
-    public Result getAllUsers(@RequestBody Map params){
-        //对用户进行分页，泛型中注入的为用户实体类
-        int current = (int) params.get("current");
-        int size = (int) params.get("size");
-        Page<Users> page = new Page<>(current,size);
-        Page<Users> userspage = usersService.page(page);
-        long total = userspage.getTotal();
-        List<Users> records = userspage.getRecords();
-        return Result.success().data("total",total).data("records",records);
+    @PostMapping(value = "/getAllUsers", produces = "application/json;charset=UTF-8")
+    @ApiOperation(value = "查询全部用户", notes = "")
+    public Result getAllUsers(@RequestBody Map params) {
+        return usersService.getAllUsers(params);
     }
 
     @GetMapping("getUserById/{id}")
-    @ApiOperation(value = "查询单个用户信息",notes = "通过id查询对应用户信息")
-    public Result getUserById(@PathVariable("id") Long id){
-
+    @ApiOperation(value = "查询单个用户信息", notes = "通过id查询对应用户信息")
+    public Result getUserById(@PathVariable("id") Long id) {
         Users user = usersService.getById(id);
-        if(user!=null) {
+        if (user != null) {
             return Result.success().data("user", user);
+        } else {
+            throw new BussinessException(ReturnCode.USER_NOT_FOUND.getCode(), ReturnCode.USER_NOT_FOUND.getMessage());
         }
-        else {
-            throw new BussinessException(ReturnCode.USER_NOT_FOUND.getCode(),ReturnCode.USER_NOT_FOUND.getMessage());
-        }
+    }
+
+    @PostMapping("insertUser")
+    @ApiOperation(value = "插入一条新队员信息")
+    public Result insertUser(@RequestBody Map params) {
+        //从前端参数中取得user
+        System.out.println(params.get(("user")));
+        JSONObject jsonobject = JSONObject.parseObject(JSON.toJSONString(params.get("user")));
+        Users user = JSON.toJavaObject(jsonobject,Users.class);
+        usersService.save(user);
+        UserRole userRole=new UserRole();
+        userRole.setUserID(user.getId());
+        userRole.setRole("ROLE_MEMBER");
+        userMapper.insertRole(userRole);
+        return Result.success().tip("添加新队员信息完成");
     }
 }
 

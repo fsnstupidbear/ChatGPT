@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * Copyright (C), 2019-2019, XXX有限公司
@@ -28,6 +27,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 //指定为Spring Security配置类
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    CustomizeAuthenticationEntryPoint authenticationEntryPoint;
 
     private static final String[] AUTH_WHITELIST = {
             // -- swagger ui
@@ -45,14 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //处理未登录时返回Json为登录页面Html
-        AuthenticationEntryPoint authenticationEntryPoint = new CustomizeAuthenticationEntryPoint();
-
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers("/").permitAll()
+//                .antMatchers("/").permitAll()
+                .antMatchers("/vocations/**").permitAll()
                 .antMatchers("/index/homePage").hasAnyRole("CAPTAIN","MEMBER")
-                .antMatchers("/users/getAllUsers").permitAll()
-                .antMatchers("/FVF/","/index/FVF").hasRole("CAPTAIN")
+                .antMatchers("/users/**").permitAll()
                 .antMatchers("/admin/**").hasRole("CAPTAIN")
                 .antMatchers("/FVF/**").permitAll()
                 .anyRequest().authenticated()

@@ -10,11 +10,11 @@ import java.util.List;
 public interface PointsMapper {
 
     //查询倒序积分表
-    @Select("select id,username,points from FVF order by points desc")
+    @Select("select id,username,points from FVF where username<>'null' order by points desc")
     List<PointsList> queryPointsDesc();
 
     //查询积分表全部信息
-    @Select("select id,username,points from FVF")
+    @Select("select id,username,points from FVF order by id")
     List<PointsList> queryAll();
 
     //清空全部username

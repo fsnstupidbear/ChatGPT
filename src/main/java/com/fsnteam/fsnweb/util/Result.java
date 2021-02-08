@@ -1,6 +1,7 @@
 package com.fsnteam.fsnweb.util;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -24,6 +25,9 @@ public class Result {
 
     @ApiModelProperty(value = "返回数据")
     private Map<String,Object> data =new HashMap<>();
+
+    @ApiModelProperty(value = "提示信息")
+    private String tip;
 
     private Result(){
 
@@ -75,6 +79,11 @@ public class Result {
 
     public Result data(Map<String,Object> map){
         this.setData(map);
+        return this;
+    }
+
+    public Result tip(String tip) {
+        this.setTip(tip);
         return this;
     }
 }

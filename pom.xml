@@ -116,6 +116,12 @@
             <!--在引用时请在maven中央仓库搜索最新版本号-->
             <version>2.0.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.41</version>
+        </dependency>
     </dependencies>
     <!-- 构建项目（打包生成可执行文件）需要的信息 -->
     <build>

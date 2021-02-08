@@ -1,16 +1,22 @@
 package com.fsnteam.fsnweb.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
 import com.fsnteam.fsnweb.service.FvfService;
 import com.fsnteam.fsnweb.util.FVF;
+import com.fsnteam.fsnweb.util.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 打开页面时：/FVF/进入
@@ -42,7 +48,7 @@ import java.util.List;
  * 计算并存入Map返回给后端，存入数据库
 
  */
-@Controller
+@RestController
 @RequestMapping("/FVF")
 public class FVFController {
 
@@ -51,20 +57,22 @@ public class FVFController {
 
     /**
      * 结算当前场次
-     * @param request
+     * @param
      * @return
      */
     @RequestMapping("/checkScore")
-    public String checkScore(HttpServletRequest request){
+    public Result checkScore(@RequestBody Map params){
         //取得比分数据
-        String score=request.getParameter("score");
+        String score= (String) params.get("score");
+        System.out.println(score);
         //计算积分
         fvfService.updateScore(score);
-        return "redirect:/FVF/";
+        return Result.success().tip("积分结算完成");
     }
 
-    @RequestMapping("/")
-    public String show(Model model){
+    @PostMapping("/")
+    @ApiOperation(value = "查询分组情况")
+    public Result show(){
         List<PointsList> pointsList = fvfService.queryAllPoints();
         //把字符串转换为字符数组再转换为整型数组
         //取得红队随机分组结果，数组存储
@@ -76,45 +84,45 @@ public class FVFController {
         //        1111111111111111计算账单11111111111111111111111
         List<Double> checkMoney= fvfService.checkMoney(pointsDesc);
         //组装积分和账单
-        fvfService.mergePointsAndAccount(pointsDesc,checkMoney);
-        model.addAttribute("checkMoney",checkMoney);
-        //        1111111111111111计算账单11111111111111111111111
-        //返回给前端
-        model.addAttribute("redTeam",redTeam);
-        model.addAttribute("blueTeam",blueTeam);
-        model.addAttribute("pointsList",pointsList);
-        model.addAttribute("pointsDesc",pointsDesc);
-        return "member/FVF";
+        pointsDesc = fvfService.mergePointsAndAccount(pointsDesc, checkMoney);
+//        //        1111111111111111计算账单11111111111111111111111
+        return Result.success()
+                .data("redTeam",redTeam)
+                .data("blueTeam",blueTeam)
+                .data("pointsDesc",pointsDesc)
+                .data("pointsList",pointsList);
     }
-    @RequestMapping("/clearAll")
-    public String clear(){
+    @PostMapping("/clearAll")
+    public Result clear(){
         fvfService.clearPointsAndGroup();
-        return "redirect:/FVF/";
+        return Result.success().tip("分组数据已初始化");
     }
     /**
      * 取得页面值后先判断是否为空,判断需要几个随机数
      * if(！null||.trim!=""),存起来，全部判断结束后，一次update进FVF表
      * 生成对应随机数时，取出数据库中8个数据，查询不为空的数据并计数为reqNum
+     * @return
      */
-    @RequestMapping("/dg")
-    public String divideGroup(HttpServletRequest request){
+    @PostMapping("/dg")
+    public Result divideGroup(@RequestBody Map params){
         //分组名单数组
         String[] per=new String[8];
         List<DvdName> nameList =new ArrayList<DvdName>();
         //报名名单序号
         int id=0;
-        per[0] = request.getParameter("per0");
-        per[1] = request.getParameter("per1");
-        per[2] = request.getParameter("per2");
-        per[3] = request.getParameter("per3");
-        per[4] = request.getParameter("per4");
-        per[5] = request.getParameter("per5");
-        per[6] = request.getParameter("per6");
-        per[7] = request.getParameter("per7");
-
+        List<PointsList> pointsList = JSONArray.parseArray((String) params.get("persons"), PointsList.class);
+        per[0] = pointsList.get(0).getUsername();
+        per[1] = pointsList.get(1).getUsername();
+        per[2] = pointsList.get(2).getUsername();
+        per[3] = pointsList.get(3).getUsername();
+        per[4] = pointsList.get(4).getUsername();
+        per[5] = pointsList.get(5).getUsername();
+        per[6] = pointsList.get(6).getUsername();
+        per[7] = pointsList.get(7).getUsername();
         //筛选未输入的文本框，把输入的文本框内容按顺序存入List
         for (int i = 0; i < per.length; i++) {
-            if (per[i].trim()!="") {
+            System.out.println(per[i]);
+            if(!(per[i] == null || per[i].trim().length() == 0)) {
                 DvdName dvdName=new DvdName();
                 dvdName.setId(id);
                 dvdName.setUserName(per[i]);
@@ -130,6 +138,6 @@ public class FVFController {
         int reqNum=fvfService.selectCountUserName();
         //生成对应数量的随机数
         fvfService.divideGroup(reqNum);
-        return "redirect:/FVF/";
+        return Result.success().tip("分组已完成");
     }
 }

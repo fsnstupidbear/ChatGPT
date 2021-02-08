@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -13,6 +14,11 @@ public class User implements UserDetails {
     private String id;
     private String username;
     private String password;
+    //分队/总队
+    private String department;
+    private String QQnumber;
+    private String phoneNumber;
+    private Date joinDate;
     private List<UserRole> roles;
     private String isEnabled;
     private String vocation;
@@ -21,8 +27,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole role:roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        if(authorities.size()>0) {
+            for (UserRole role : roles) {
+                authorities.add(new SimpleGrantedAuthority(role.getRole()));
+            }
         }
         return authorities;
     }
