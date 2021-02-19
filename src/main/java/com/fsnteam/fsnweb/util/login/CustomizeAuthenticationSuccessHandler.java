@@ -25,7 +25,7 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println("上下文："+principal);
         System.out.println("权限："+authentication.getAuthorities());
-
+//
 
         //此处还可以进行一些处理，比如登录成功之后可能需要返回给前台当前用户有哪些菜单权限，
         //进而前台动态的控制菜单的显示等，具体根据自己的业务需求进行扩展
