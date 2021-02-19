@@ -1,9 +1,13 @@
-package com.fsnteam.fsnweb.config;
+package com.fsnteam.fsnweb.config.security;
 
 import com.fsnteam.fsnweb.service.UserSecurityService;
+import com.fsnteam.fsnweb.util.login.CustomizeAuthenticationEntryPoint;
+import com.fsnteam.fsnweb.util.login.CustomizeAuthenticationFailureHandler;
+import com.fsnteam.fsnweb.util.login.CustomizeAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -12,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 /**
  * Copyright (C), 2019-2019, XXX有限公司
@@ -31,6 +36,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomizeAuthenticationEntryPoint authenticationEntryPoint;
 
+    @Autowired
+    CustomizeAuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Autowired
+    CustomizeAuthenticationFailureHandler authenticationFailureHandler;
+
+    @Autowired
+    CustomizeAccessDecisionManager accessDecisionManager;
+
+    @Autowired
+    CustomizeFilterInvocationSecurityMetadataSource securityMetadataSource;
+
+    @Autowired
+    CustomizeAbstractSecurityInterceptor securityInterceptor;
+
     private static final String[] AUTH_WHITELIST = {
             // -- swagger ui
             "/swagger-resources/**",
@@ -40,24 +60,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     @Bean
-    UserDetailsService userService(){
+    UserDetailsService userService() {
         return new UserSecurityService();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //处理未登录时返回Json为登录页面Html
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
-//                .antMatchers("/").permitAll()
-                .antMatchers("/vocations/**").permitAll()
-                .antMatchers("/index/homePage").hasAnyRole("CAPTAIN","MEMBER")
-                .antMatchers("/users/**").permitAll()
-                .antMatchers("/admin/**").hasRole("CAPTAIN")
-                .antMatchers("/FVF/**").permitAll()
                 .anyRequest().authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(securityMetadataSource);//安全元数据源
+                        o.setAccessDecisionManager(accessDecisionManager);//决策管理器
+                        return o;
+                    }
+                })
                 .and()
-                .formLogin().loginPage("/").defaultSuccessUrl("/index/homePage")
+                .formLogin()
+                //登录成功处理逻辑
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout().permitAll()
                 .and()
@@ -66,17 +90,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().sameOrigin()
                 //处理未登录时返回Json为登录页面Html
-                .and().exceptionHandling().
-                authenticationEntryPoint(authenticationEntryPoint)
-                ;
+                .and().exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint);
+        //增加到默认拦截链中
+                http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
     }
 
     //加密Bcrypt
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     /**
      * 允许访问静态资源
+     *
      * @param web
      * @throws Exception
      */

@@ -1,4 +1,4 @@
-package com.fsnteam.fsnweb.config;
+package com.fsnteam.fsnweb.util.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fsnteam.fsnweb.util.Result;
@@ -6,7 +6,6 @@ import com.fsnteam.fsnweb.util.ReturnCode;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
         httpServletResponse.setContentType("text/json;charset=utf-8");
         ObjectMapper objectMapping=new ObjectMapper();
         httpServletResponse.getWriter().write(objectMapping.writeValueAsString(Result.error().isSuccess(false)
-                .code(ReturnCode.NOT_LOGIN.getCode())
-                .message(ReturnCode.NOT_LOGIN.getMessage())));
+                .code(ReturnCode.AUTHORITY_ERROR.getCode())
+                .message(ReturnCode.AUTHORITY_ERROR.getMessage())));
     }
 }

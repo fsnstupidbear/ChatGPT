@@ -1,4 +1,4 @@
-package com.fsnteam.fsnweb.config;
+package com.fsnteam.fsnweb.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

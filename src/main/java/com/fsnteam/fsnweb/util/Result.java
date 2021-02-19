@@ -1,7 +1,6 @@
 package com.fsnteam.fsnweb.util;
 
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -9,6 +8,7 @@ import java.util.Map;
 
 /**
  * 公共返回结果
+ * @author 一只大笨熊
  */
 
 @Data

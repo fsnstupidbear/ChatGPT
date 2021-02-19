@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +103,7 @@ public class FVFController {
      * @return
      */
     @PostMapping("/dg")
+    @ApiOperation("分组")
     public Result divideGroup(@RequestBody Map params){
         //分组名单数组
         String[] per=new String[8];

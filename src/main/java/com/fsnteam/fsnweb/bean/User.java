@@ -2,9 +2,8 @@ package com.fsnteam.fsnweb.bean;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -25,13 +24,13 @@ public class User implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        if(authorities.size()>0) {
-            for (UserRole role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role.getRole()));
-            }
-        }
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        if(roles.size()>0) {
+//            for (UserRole role : roles) {
+//                authorities.add(new SimpleGrantedAuthority(role.getRole()));
+//            }
+//        }
         return authorities;
     }
 

@@ -14,7 +14,7 @@ public interface UserMapper {
     User selectUserById(String id);
 
     //查找角色
-    @Select("select id,role from ROLE where userid=#{id}")
+    @Select("select role from UserRoleRelation where userid=#{id}")
     List<UserRole> selectRoleById(String id);
 
     //添加队员
@@ -23,6 +23,6 @@ public interface UserMapper {
     void insertUser(User user);
 
     //添加角色
-    @Insert("insert into ROLE(role,USERID) values(#{role},#{userID})")
+    @Insert("insert into UserRoleRelation(role,USERID) values(#{role},#{userID})")
     void insertRole(UserRole userRole);
 }
