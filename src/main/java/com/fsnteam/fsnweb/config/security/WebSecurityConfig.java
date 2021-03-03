@@ -1,12 +1,10 @@
 package com.fsnteam.fsnweb.config.security;
 
 import com.fsnteam.fsnweb.service.UserSecurityService;
-import com.fsnteam.fsnweb.util.login.CustomizeAuthenticationEntryPoint;
-import com.fsnteam.fsnweb.util.login.CustomizeAuthenticationFailureHandler;
-import com.fsnteam.fsnweb.util.login.CustomizeAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,6 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomizeAbstractSecurityInterceptor securityInterceptor;
 
+    @Autowired
+    CustomizeLogoutSuccessHandler logoutSuccessHandler;
+
+    @Autowired
+    CustomizeAccessDeniedHandler accessDeniedHandler;
+
     private static final String[] AUTH_WHITELIST = {
             // -- swagger ui
             "/swagger-resources/**",
@@ -68,6 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
+                //跨域请求会先进行一次options请求
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -83,7 +89,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .and()
-                .logout().permitAll()
+                //异常处理(权限拒绝、登录失效等)
+                .exceptionHandling().
+                //权限拒绝处理逻辑
+                accessDeniedHandler(accessDeniedHandler)
+                //匿名用户访问无权限资源时的异常处理
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and().logout().permitAll()
+                .logoutSuccessHandler(logoutSuccessHandler)
+                //登出成功处理逻辑
+                .deleteCookies("JSESSIONID")
+                //登出之后删除cookie
                 .and()
                 .cors()
                 .and()
@@ -93,7 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint);
         //增加到默认拦截链中
-                http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
+        http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
     }
 
     //加密Bcrypt
@@ -110,7 +126,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers("/**/**.*");
+        web.ignoring().antMatchers(HttpMethod.OPTIONS,"/**/**.*");
     }
 
     @Autowired

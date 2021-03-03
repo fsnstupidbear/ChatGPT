@@ -2,9 +2,10 @@ package com.fsnteam.fsnweb.dao;
 
 import com.fsnteam.fsnweb.bean.User;
 import com.fsnteam.fsnweb.bean.UserRole;
-import org.apache.ibatis.annotations.*;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper {
@@ -15,7 +16,7 @@ public interface UserMapper {
 
     //查找角色
     @Select("select role from UserRoleRelation where userid=#{id}")
-    List<UserRole> selectRoleById(String id);
+    String selectRoleById(String id);
 
     //添加队员
     @Insert("insert into USERS(username,vocation) values(#{username},#{vocation});")

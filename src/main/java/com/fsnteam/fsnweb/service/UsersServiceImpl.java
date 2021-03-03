@@ -37,7 +37,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         JSONObject jsonobject = JSONObject.parseObject((String) params.get("users"));
         Users users = JSON.toJavaObject(jsonobject,Users.class);
         LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(Users::getUsername,Users::getVocation,Users::getDepartment,Users::getJoinDate,Users::getQQNumber,Users::getPhoneNumber);
+        queryWrapper.select(Users::getId,Users::getUsername,Users::getVocation,Users::getDepartment,Users::getJoinDate,Users::getQQNumber,Users::getPhoneNumber);
 
         if(users!=null) {
             if(StringUtils.isNotBlank(users.getUsername())){

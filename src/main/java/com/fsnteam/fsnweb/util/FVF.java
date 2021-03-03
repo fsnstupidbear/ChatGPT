@@ -14,7 +14,6 @@ public class FVF {
         //从Map中取出红蓝队分配完毕后的成员编号
         List redTeam = teaminfo.get("redTeam");
         List blueTeam = teaminfo.get("blueTeam");
-        System.out.println("红队：" + redTeam + "蓝队：" + blueTeam);
     }
 
     /**

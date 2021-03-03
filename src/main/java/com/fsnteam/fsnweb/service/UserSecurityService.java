@@ -1,16 +1,10 @@
 package com.fsnteam.fsnweb.service;
 
 import com.fsnteam.fsnweb.bean.User;
-import com.fsnteam.fsnweb.bean.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserSecurityService implements UserDetailsService {
 
@@ -20,18 +14,13 @@ public class UserSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         User user= userService.selectUserById(id);
-        List<UserRole> roles=userService.selectRoleById(id);
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        if(roles.size()>0) {
-            for (UserRole role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role.getRole()));
-            }
+        String roles=userService.selectRoleById(id);
+        if(!"".equals(roles)) {
+            String[] rolesArray = roles.split(",");
+            user.setRoles(rolesArray);
         }
-        user.setAuthorities(authorities);
-        if(roles.size()>0) {
-            user.setRoles(roles);
-            System.out.println(user.getAuthorities());
-        }
-        return user;
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(),user.isEnabled(),true,true,true,
+                user.getAuthorities());
     }
 }

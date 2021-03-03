@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * @author 一只大笨熊
+ */
 @Component
 public class CustomizeAccessDecisionManager implements AccessDecisionManager {
     @Override
@@ -18,12 +21,10 @@ public class CustomizeAccessDecisionManager implements AccessDecisionManager {
         Iterator<ConfigAttribute> iterator = collection.iterator();
         while (iterator.hasNext()) {
             ConfigAttribute ca = iterator.next();
-            System.out.println("当前请求需要的权限"+ca);
             //当前请求需要的权限
             String needRole = ca.getAttribute();
             //当前用户所具有的权限
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            System.out.println("当前用户所具有的权限"+authentication.getAuthorities());
             for (GrantedAuthority authority : authorities) {
                 if (authority.getAuthority().equals(needRole)) {
                     return;

@@ -1,4 +1,4 @@
-package com.fsnteam.fsnweb.util.login;
+package com.fsnteam.fsnweb.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fsnteam.fsnweb.util.Result;
@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author 一只大笨熊
+ */
 @Component
 public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

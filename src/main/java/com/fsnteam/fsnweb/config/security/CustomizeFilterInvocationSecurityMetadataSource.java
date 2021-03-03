@@ -10,9 +10,13 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author 一只大笨熊
+ */
 @Component
 public class CustomizeFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Autowired
@@ -26,7 +30,13 @@ public class CustomizeFilterInvocationSecurityMetadataSource implements FilterIn
         queryWrapper.select(RoleUrlRelation::getRole,RoleUrlRelation::getUrl);
         queryWrapper.like(RoleUrlRelation::getUrl,requestUrl);
         List<RoleUrlRelation> permissionList =  roleUrlRelationService.list(queryWrapper);
-        if(permissionList == null || permissionList.size() == 0){
+        ArrayList roleList = new ArrayList<String>();
+        for (int i = 0; i < permissionList.size(); i++) {
+            if(!permissionList.get(i).getRole().equals("")||permissionList.get(i).getRole()==null){
+                roleList.add(permissionList.get(i).getRole());
+            }
+        }
+        if(roleList == null || roleList.size() == 0){
             //请求路径没有配置权限，表明该请求接口可以任意访问
             return null;
         }
@@ -34,6 +44,7 @@ public class CustomizeFilterInvocationSecurityMetadataSource implements FilterIn
             for(int i = 0;i<permissionList.size();i++){
             attributes[i] = permissionList.get(i).getRole();
         }
+
         return SecurityConfig.createList(attributes);
     }
 

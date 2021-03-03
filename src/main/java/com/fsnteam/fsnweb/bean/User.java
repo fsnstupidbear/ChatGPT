@@ -1,13 +1,19 @@
 package com.fsnteam.fsnweb.bean;
 
 import lombok.Data;
+import lombok.SneakyThrows;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author 一只大笨熊
+ */
 @Data
 public class User implements UserDetails {
     private String id;
@@ -18,19 +24,24 @@ public class User implements UserDetails {
     private String QQnumber;
     private String phoneNumber;
     private Date joinDate;
-    private List<UserRole> roles;
+    private String[] roles;
     private String isEnabled;
     private String vocation;
     private Collection<? extends GrantedAuthority> authorities;
 
+    @SneakyThrows
     @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        if(roles.size()>0) {
-//            for (UserRole role : roles) {
-//                authorities.add(new SimpleGrantedAuthority(role.getRole()));
-//            }
-//        }
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if(roles==null) {
+
+        }
+        if(roles!=null) {
+            for (int i = 0; i < roles.length; i++) {
+                System.out.println(roles[i]);
+                authorities.add(new SimpleGrantedAuthority(roles[i]));
+            }
+        }
         return authorities;
     }
 

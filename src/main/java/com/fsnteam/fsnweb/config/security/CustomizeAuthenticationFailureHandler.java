@@ -1,4 +1,4 @@
-package com.fsnteam.fsnweb.util.login;
+package com.fsnteam.fsnweb.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fsnteam.fsnweb.util.Result;

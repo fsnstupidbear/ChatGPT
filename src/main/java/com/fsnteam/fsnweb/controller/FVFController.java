@@ -63,7 +63,6 @@ public class FVFController {
     public Result checkScore(@RequestBody Map params){
         //取得比分数据
         String score= (String) params.get("score");
-        System.out.println(score);
         //计算积分
         fvfService.updateScore(score);
         return Result.success().tip("积分结算完成");
@@ -121,7 +120,6 @@ public class FVFController {
         per[7] = pointsList.get(7).getUsername();
         //筛选未输入的文本框，把输入的文本框内容按顺序存入List
         for (int i = 0; i < per.length; i++) {
-            System.out.println(per[i]);
             if(!(per[i] == null || per[i].trim().length() == 0)) {
                 DvdName dvdName=new DvdName();
                 dvdName.setId(id);

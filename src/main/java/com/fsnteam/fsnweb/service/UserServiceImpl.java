@@ -6,8 +6,6 @@ import com.fsnteam.fsnweb.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -20,7 +18,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<UserRole> selectRoleById(String id) {
+    public String selectRoleById(String id) {
         return userMapper.selectRoleById(id);
     }
 

@@ -2,7 +2,6 @@ package com.fsnteam.fsnweb.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fsnteam.fsnweb.bean.User;
 import com.fsnteam.fsnweb.bean.UserRole;
 import com.fsnteam.fsnweb.dao.UserMapper;
 import com.fsnteam.fsnweb.entity.Users;
@@ -61,7 +60,6 @@ public class UsersController {
     @ApiOperation(value = "插入一条新队员信息")
     public Result insertUser(@RequestBody Map params) {
         //从前端参数中取得user
-        System.out.println(params.get(("user")));
         JSONObject jsonobject = JSONObject.parseObject(JSON.toJSONString(params.get("user")));
         Users user = JSON.toJavaObject(jsonobject,Users.class);
         usersService.save(user);
@@ -70,6 +68,15 @@ public class UsersController {
         userRole.setRole("ROLE_MEMBER");
         userMapper.insertRole(userRole);
         return Result.success().tip("添加新队员信息完成");
+    }
+
+    @PostMapping("updateUserById")
+    @ApiOperation(value = "根据用户ID修改信息")
+    public Result updateUserById(@RequestBody Map params){
+        JSONObject jsonobject = JSONObject.parseObject(JSON.toJSONString(params.get("user")));
+        Users user = JSON.toJavaObject(jsonobject,Users.class);
+        usersService.updateById(user);
+        return Result.success().tip("修改信息完成");
     }
 }
 
