@@ -7,6 +7,7 @@ import com.fsnteam.fsnweb.entity.UserRoleRelation;
 import com.fsnteam.fsnweb.service.RoleService;
 import com.fsnteam.fsnweb.service.UserRoleRelationService;
 import com.fsnteam.fsnweb.util.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,23 +36,26 @@ public class UserRoleController {
     UserRoleRelationService userRoleRelationService;
 
     @PostMapping("getAllRoles")
+    @ApiOperation(value = "获取全部角色列表")
     public Result getAllRole(){
         List<Role> list = roleService.list();
         return Result.success().data("roleList",list);
     }
 
     @PostMapping("getRolesById")
+    @ApiOperation(value = "根据ID获取当前用户拥有角色")
     public Result getRolesById(@RequestBody Map params){
         String id = (String) params.get("id");
         String roles = userMapper.selectRoleById(id);
         String[] rolesList = new String[0];
-        if(roles!=null||!roles.equals("")) {
+        if(roles!=null&&!roles.equals("")) {
             rolesList = roles.split(",");
         }
         return Result.success().data("rolesList",rolesList);
     }
 
     @PostMapping("updateRolesById")
+    @ApiOperation("更新当前ID拥有的角色")
     public Result updateRolesById(@RequestBody Map params){
         String id = (String) params.get("id");
         ArrayList roles = (ArrayList) params.get("roles");

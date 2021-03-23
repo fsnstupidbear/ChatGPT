@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author StupidBear
- * @since 2021-02-24
+ * @since 2021-03-03
  */
 public interface RoleMapper extends BaseMapper<Role> {
 

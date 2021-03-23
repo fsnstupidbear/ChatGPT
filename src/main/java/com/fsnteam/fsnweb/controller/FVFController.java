@@ -59,7 +59,8 @@ public class FVFController {
      * @param
      * @return
      */
-    @RequestMapping("/checkScore")
+    @PostMapping("/checkScore")
+    @ApiOperation("获取比分数据，更新参赛选手积分")
     public Result checkScore(@RequestBody Map params){
         //取得比分数据
         String score= (String) params.get("score");
@@ -91,6 +92,7 @@ public class FVFController {
                 .data("pointsList",pointsList);
     }
     @PostMapping("/clearAll")
+    @ApiOperation("清空分组器")
     public Result clear(){
         fvfService.clearPointsAndGroup();
         return Result.success().tip("分组数据已初始化");
@@ -102,7 +104,7 @@ public class FVFController {
      * @return
      */
     @PostMapping("/dg")
-    @ApiOperation("分组")
+    @ApiOperation(value = "分组")
     public Result divideGroup(@RequestBody Map params){
         //分组名单数组
         String[] per=new String[8];

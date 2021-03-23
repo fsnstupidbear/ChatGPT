@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author 一只大笨熊
@@ -27,24 +26,29 @@ public class CustomizeFilterInvocationSecurityMetadataSource implements FilterIn
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         //查询具体某个接口的权限
         LambdaQueryWrapper<RoleUrlRelation> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(RoleUrlRelation::getRole,RoleUrlRelation::getUrl);
-        queryWrapper.like(RoleUrlRelation::getUrl,requestUrl);
-        List<RoleUrlRelation> permissionList =  roleUrlRelationService.list(queryWrapper);
-        ArrayList roleList = new ArrayList<String>();
-        for (int i = 0; i < permissionList.size(); i++) {
-            if(!permissionList.get(i).getRole().equals("")||permissionList.get(i).getRole()==null){
-                roleList.add(permissionList.get(i).getRole());
+        queryWrapper.select(RoleUrlRelation::getRole);
+        queryWrapper.eq(RoleUrlRelation::getUrl,requestUrl);
+        RoleUrlRelation roleUrlRelation = roleUrlRelationService.getOne(queryWrapper);
+        ArrayList<String> roleList = new ArrayList<>();
+        if(roleUrlRelation!=null) {
+        }
+        String[] roleString = new String[0];
+        if(roleUrlRelation!=null) {
+            roleString = roleUrlRelation.getRole().split(",");
+        }
+        for (int i = 0; i < roleString.length; i++) {
+            if(!roleString[i].equals("")||roleString[i]==null){
+                roleList.add(roleString[i]);
             }
         }
         if(roleList == null || roleList.size() == 0){
             //请求路径没有配置权限，表明该请求接口可以任意访问
             return null;
         }
-        String[] attributes = new String[permissionList.size()];
-            for(int i = 0;i<permissionList.size();i++){
-            attributes[i] = permissionList.get(i).getRole();
+        String[] attributes = new String[roleString.length];
+            for(int i = 0;i<roleString.length;i++){
+            attributes[i] = roleString[i];
         }
-
         return SecurityConfig.createList(attributes);
     }
 

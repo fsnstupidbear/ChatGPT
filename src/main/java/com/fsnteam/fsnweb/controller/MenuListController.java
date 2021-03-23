@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fsnteam.fsnweb.entity.MenuList;
 import com.fsnteam.fsnweb.service.MenuListService;
 import com.fsnteam.fsnweb.util.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,7 @@ public class MenuListController {
     MenuListService menuListService;
 
     @PostMapping("getMenuList")
+    @ApiOperation("根据登录账户权限动态获取菜单")
     public Result getMenuList(){
         List<MenuList> menuList;
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -63,6 +65,9 @@ public class MenuListController {
                         menuList.get(i).getChildren().add(menuItem);
                     }
                 }
+                /**
+                 * 此写法目前无法创建三级菜单，预想解决方案：可先收集菜单号，在循环体外统一删除
+                 */
                 iterator.remove();
             }
         }

@@ -19,8 +19,8 @@ public class UserSecurityService implements UserDetailsService {
             String[] rolesArray = roles.split(",");
             user.setRoles(rolesArray);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),user.isEnabled(),true,true,true,
-                user.getAuthorities());
+        return new org.springframework.security.core.userdetails.User
+                (user.getUsername(), user.getPassword(),user.isEnabled(),true,
+                        true,true, user.getAuthorities());
     }
 }

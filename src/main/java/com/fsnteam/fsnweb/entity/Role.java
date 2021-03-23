@@ -1,5 +1,6 @@
 package com.fsnteam.fsnweb.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author StupidBear
- * @since 2021-02-24
+ * @since 2021-03-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,9 +24,11 @@ public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String ID;
-
+    @TableField("role")
     private String role;
 
+    @TableField("disabled")
     private boolean disabled;
+
+
 }

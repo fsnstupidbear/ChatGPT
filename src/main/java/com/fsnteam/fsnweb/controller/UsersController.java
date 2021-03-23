@@ -65,7 +65,7 @@ public class UsersController {
         usersService.save(user);
         UserRole userRole=new UserRole();
         userRole.setUserID(user.getId());
-        userRole.setRole("ROLE_MEMBER");
+        userRole.setRole("队员");
         userMapper.insertRole(userRole);
         return Result.success().tip("添加新队员信息完成");
     }
@@ -77,6 +77,23 @@ public class UsersController {
         Users user = JSON.toJavaObject(jsonobject,Users.class);
         usersService.updateById(user);
         return Result.success().tip("修改信息完成");
+    }
+
+    @PostMapping("isForbiddenUserById")
+    @ApiOperation("禁用当前选择账号")
+    public Result forbiddenUserById(@RequestBody Map params){
+        String id = (String) params.get("id");
+        String isForbidden = (String) params.get("isForbidden");
+        if("0".equals(isForbidden)){
+            isForbidden="1";
+        }else {
+            isForbidden="0";
+        }
+        Users user = new Users();
+        user.setId(id);
+        user.setIsEnabled(isForbidden);
+        usersService.updateById(user);
+        return Result.success();
     }
 }
 

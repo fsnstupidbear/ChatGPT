@@ -2,6 +2,9 @@ package com.fsnteam.fsnweb.service;
 
 import com.fsnteam.fsnweb.entity.RoleUrlRelation;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fsnteam.fsnweb.util.Result;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-02-19
  */
 public interface RoleUrlRelationService extends IService<RoleUrlRelation> {
+    public Result selectRolesHasThisAuthority(Map params);
 
+    public Result updateRolesHasAuthorityById(Map params);
 }

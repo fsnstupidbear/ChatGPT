@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String phoneNumber;
     private Date joinDate;
     private String[] roles;
-    private String isEnabled;
+    private boolean isEnabled;
     private String vocation;
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -38,7 +38,6 @@ public class User implements UserDetails {
         }
         if(roles!=null) {
             for (int i = 0; i < roles.length; i++) {
-                System.out.println(roles[i]);
                 authorities.add(new SimpleGrantedAuthority(roles[i]));
             }
         }
@@ -52,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return id;
     }
 
     @Override
@@ -72,6 +71,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }
