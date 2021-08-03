@@ -19,4 +19,6 @@ public interface CompetitionsSignUpInfoService extends IService<CompetitionsSign
     public Result addSignUpInfo(Map params);
 
     public Result getSignUpInfo(Map params);
+
+    public Result cancelSignUp(Map params);
 }

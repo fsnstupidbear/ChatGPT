@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.collections.Predicate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +25,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @TableName("USERS")
 @ApiModel(value="Users对象", description="")
-public class Users implements Serializable {
+public class Users implements Serializable, Predicate {
 
     @TableField("ID")
     @TableId(type = IdType.AUTO)
@@ -54,4 +55,9 @@ public class Users implements Serializable {
 
     @TableField("PHONE_NUMBER")
     private String phoneNumber;
+
+    @Override
+    public boolean evaluate(Object o) {
+        return false;
+    }
 }

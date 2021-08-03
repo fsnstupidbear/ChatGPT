@@ -2,6 +2,7 @@ package com.fsnteam.fsnweb.service;
 
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
+import com.fsnteam.fsnweb.util.Result;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,4 +50,6 @@ public interface FvfService {
     List<Double> checkMoney(List<PointsList> pointsDesc);
 
     List<PointsList> mergePointsAndAccount(List<PointsList> pointsDesc, List<Double> checkMoney);
+
+    Result getTeamMember();
 }

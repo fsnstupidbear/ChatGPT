@@ -47,4 +47,9 @@ public class CompetitionClassifyController {
         competitionClassifyService.save(competitionClassify);
         return Result.success();
     }
+
+    @PostMapping("getAllCompetitionClassify")
+    public Result getAllCompetitionClassify(){
+        return competitionClassifyService.getAllCompetitionClassify();
+    }
 }

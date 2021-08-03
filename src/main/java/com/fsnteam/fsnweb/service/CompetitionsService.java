@@ -16,5 +16,15 @@ import java.util.Map;
  */
 public interface CompetitionsService extends IService<Competitions> {
 
-    public Result getAllCompetitions(Map params);
+    Result getAllCompetitions(Map params);
+
+    Result updateSignUpStateById(Map params);
+
+    Result ifHasAuthority();
+
+    Result commitResult(Map params);
+
+    Result insertCompetition(Map params);
+
+    Result deleteCompetitionById(Map params);
 }

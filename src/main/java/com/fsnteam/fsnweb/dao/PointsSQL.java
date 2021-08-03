@@ -13,10 +13,13 @@ public class PointsSQL {
      */
     public String insertUserName(List<DvdName> nameList) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("update FVF\n" +
-                "        set USERNAME =case ID");
+        buffer.append("update FVF set USERNAME =case ID");
         for (int i = 0; i < nameList.size(); i++) {
             buffer.append(" when "+i+" then '"+nameList.get(i).getUserName()+"'");
+        }
+        buffer.append("end , userid = case ID");
+        for (int i = 0; i < nameList.size(); i++) {
+            buffer.append(" when "+i+" then '"+nameList.get(i).getUserid()+"'");
         }
         buffer.append(" end where ID in (");
         for (int i = 0; i < nameList.size(); i++) {

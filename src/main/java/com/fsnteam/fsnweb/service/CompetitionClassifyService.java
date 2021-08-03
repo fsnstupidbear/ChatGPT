@@ -18,4 +18,6 @@ public interface CompetitionClassifyService extends IService<CompetitionClassify
 
     //获取赛事类别
     public Result getAllCompetitionClassifyList(Map params);
+
+    Result getAllCompetitionClassify();
 }

@@ -75,4 +75,12 @@ public class WhoIsUndercoverController {
         List<WhoIsUndercoverGamer> controllerGetCurrentGameInfo = whoIsUndercoverGamerService.list(queryWrapper);
         return Result.success().data("controllerGetCurrentGameInfo",controllerGetCurrentGameInfo);
     }
+
+    @PostMapping("out")
+    @ApiOperation("踢出淘汰的玩家")
+    public Result out(@RequestBody Map params){
+        Integer id = (Integer) params.get("id");
+        whoIsUndercoverGamerService.removeById(id);
+        return Result.success();
+    }
 }

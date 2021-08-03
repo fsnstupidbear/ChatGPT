@@ -122,6 +122,12 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.41</version>
         </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
     </dependencies>
     <!-- 构建项目（打包生成可执行文件）需要的信息 -->
     <build>

@@ -45,8 +45,8 @@ public class MenuListController {
         }
         //配置查询条件
         LambdaQueryWrapper<MenuList> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(MenuList::getId,MenuList::getParentId
-        ,MenuList::isDisabled,MenuList::getIcon,MenuList::getMenuName,MenuList::getUrl);
+        queryWrapper.select(MenuList::getId,MenuList::getParentId, MenuList::isDisabled,
+                MenuList::getIcon,MenuList::getMenuName,MenuList::getUrl);
         queryWrapper.in(MenuList::getRequiredRole,authoritiesList);
         for(String authority:authoritiesList){
             queryWrapper.apply( authority != null,"FIND_IN_SET ('"+ authority +"', requiredRole )").or();

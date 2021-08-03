@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -35,6 +34,11 @@ public class CompetitionsSignUpInfoController {
     @PostMapping("getSignUpInfo")
     public Result getSignUpInfo(@RequestBody Map params){
         return competitionsSignUpInfoService.getSignUpInfo(params);
+    }
+
+    @PostMapping("cancelSignUp")
+    public Result cancelSignUp(@RequestBody Map params){
+        return competitionsSignUpInfoService.cancelSignUp(params);
     }
 }
 

@@ -107,7 +107,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().sameOrigin()
                 //处理未登录时返回Json为登录页面Html
                 .and().exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                //session超时管理
+                .sessionManagement()
+                //session超时跳向的url;
+                .invalidSessionUrl("/");
         //增加到默认拦截链中
         http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
     }

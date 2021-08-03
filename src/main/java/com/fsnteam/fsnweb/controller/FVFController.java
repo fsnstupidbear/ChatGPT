@@ -1,9 +1,17 @@
 package com.fsnteam.fsnweb.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
+import com.fsnteam.fsnweb.entity.FvfRecord;
+import com.fsnteam.fsnweb.entity.PointsRecord;
+import com.fsnteam.fsnweb.entity.Users;
+import com.fsnteam.fsnweb.mapper.PointsRecordMapper;
+import com.fsnteam.fsnweb.service.FvfRecordService;
 import com.fsnteam.fsnweb.service.FvfService;
+import com.fsnteam.fsnweb.service.PointsRecordService;
+import com.fsnteam.fsnweb.service.UsersService;
 import com.fsnteam.fsnweb.util.FVF;
 import com.fsnteam.fsnweb.util.Result;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +62,18 @@ public class FVFController {
 
     @Autowired
     FvfService fvfService;
+
+    @Autowired
+    UsersService usersService;
+
+    @Autowired
+    PointsRecordMapper pointsRecordMapper;
+
+    @Autowired
+    FvfRecordService fvfRecordService;
+
+    @Autowired
+    PointsRecordService pointsRecordService;
 
     /**
      * 结算当前场次
@@ -94,6 +115,21 @@ public class FVFController {
     @PostMapping("/clearAll")
     @ApiOperation("清空分组器")
     public Result clear(){
+        //把当前积分全部存入积分记录
+        LambdaQueryWrapper<FvfRecord> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ne(FvfRecord::getUsername,"null");
+        List<FvfRecord> fvfPointsList = fvfRecordService.list(queryWrapper);
+        List<PointsRecord> pointsRecordList = new ArrayList<>();
+        for(FvfRecord fvfRecord : fvfPointsList){
+            PointsRecord pointsRecord = new PointsRecord();
+            pointsRecord.setPoints(Integer.parseInt(fvfRecord.getPoints()));
+            pointsRecord.setUserid(fvfRecord.getUserid());
+            pointsRecord.setReason("Fsn队内擂台");
+            pointsRecord.setDate(new Date());
+            pointsRecordList.add(pointsRecord);
+        }
+        pointsRecordService.saveBatch(pointsRecordList);
+        //清空分组器
         fvfService.clearPointsAndGroup();
         return Result.success().tip("分组数据已初始化");
     }
@@ -106,28 +142,27 @@ public class FVFController {
     @PostMapping("/dg")
     @ApiOperation(value = "分组")
     public Result divideGroup(@RequestBody Map params){
-        //分组名单数组
-        String[] per=new String[8];
-        List<DvdName> nameList =new ArrayList<DvdName>();
+        //获取全部队员列表
+        LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Users::getId,Users::getUsername);
+        List<Users> teamMember = usersService.list(queryWrapper);
+        //
+        List<DvdName> nameList =new ArrayList<>();
         //报名名单序号
-        int id=0;
         List<PointsList> pointsList = JSONArray.parseArray((String) params.get("persons"), PointsList.class);
-        per[0] = pointsList.get(0).getUsername();
-        per[1] = pointsList.get(1).getUsername();
-        per[2] = pointsList.get(2).getUsername();
-        per[3] = pointsList.get(3).getUsername();
-        per[4] = pointsList.get(4).getUsername();
-        per[5] = pointsList.get(5).getUsername();
-        per[6] = pointsList.get(6).getUsername();
-        per[7] = pointsList.get(7).getUsername();
         //筛选未输入的文本框，把输入的文本框内容按顺序存入List
-        for (int i = 0; i < per.length; i++) {
-            if(!(per[i] == null || per[i].trim().length() == 0)) {
+        for (int i = 0; i < pointsList.size(); i++) {
+            if(!(pointsList.get(i).getUsername() == null || pointsList.get(i).getUsername().trim().length() == 0)) {
+                //根据前端传回的username获取队员ID
+                Integer userid = selectIdByUsername(teamMember,pointsList.get(i).getUsername());
+                if(userid==null){
+                    return Result.error().tip("传输数据有误！");
+                }
                 DvdName dvdName=new DvdName();
-                dvdName.setId(id);
-                dvdName.setUserName(per[i]);
+                dvdName.setId(i);
+                dvdName.setUserid(userid);
+                dvdName.setUserName(pointsList.get(i).getUsername());
                 nameList.add(dvdName);
-                id++;
             }
         }
         //清空名单
@@ -139,5 +174,21 @@ public class FVFController {
         //生成对应数量的随机数
         fvfService.divideGroup(reqNum);
         return Result.success().tip("分组已完成");
+    }
+
+    @PostMapping("getTeamMember")
+    public Result getTeamMember(){
+        return fvfService.getTeamMember();
+    }
+
+
+    //根据username查询ID
+    public Integer selectIdByUsername(List<Users> teamMember,String username){
+        for(Users user : teamMember){
+            if(user.getUsername().equals(username)){
+                return Integer.parseInt(user.getId());
+            }
+        }
+        return null;
     }
 }

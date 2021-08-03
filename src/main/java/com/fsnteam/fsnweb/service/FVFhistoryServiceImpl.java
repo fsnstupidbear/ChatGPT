@@ -47,12 +47,14 @@ public class FVFhistoryServiceImpl extends ServiceImpl<FVFhistoryMapper, FVFhist
         String s = JSONArray.toJSONString(params.get("pointsList"));
         List<PointsList> pointsList = JSONArray.parseArray(s, PointsList.class);
         String result = "";
-        for (int i = 0; i < pointsList.size(); i++) {
-            result = result + pointsList.get(i).getUsername()+":"+pointsList.get(i).getCheckMoney()+" ";
+        if (pointsList!=null) {
+            for (int i = 0; i < pointsList.size(); i++) {
+                result = result + pointsList.get(i).getUsername() + ":" + pointsList.get(i).getCheckMoney() + " ";
+            }
+            FVFhistory fvFhistory = new FVFhistory();
+            fvFhistory.setDate(new Date());
+            fvFhistory.setResult(result);
+            fvFhistoryService.save(fvFhistory);
         }
-        FVFhistory fvFhistory = new FVFhistory();
-        fvFhistory.setDate(new Date());
-        fvFhistory.setResult(result);
-        fvFhistoryService.save(fvFhistory);
     }
 }

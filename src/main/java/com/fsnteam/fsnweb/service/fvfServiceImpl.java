@@ -1,11 +1,14 @@
 package com.fsnteam.fsnweb.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fsnteam.fsnweb.bean.DvdName;
 import com.fsnteam.fsnweb.bean.PointsList;
 import com.fsnteam.fsnweb.dao.PointsMapper;
 import com.fsnteam.fsnweb.dao.TeamTempMapper;
+import com.fsnteam.fsnweb.entity.Users;
 import com.fsnteam.fsnweb.util.CalDouble;
 import com.fsnteam.fsnweb.util.FVF;
+import com.fsnteam.fsnweb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,9 @@ public class fvfServiceImpl implements FvfService {
 
     @Autowired
     TeamTempMapper teamTempMapper;
+
+    @Autowired
+    UsersService usersService;
 
     @Override
     public List<PointsList> queryPointsDesc() {
@@ -142,9 +148,9 @@ public class fvfServiceImpl implements FvfService {
     @Override
     public void divideRB(Integer[] nums) {
         //红队队伍
-        List<Integer> redTeam = new ArrayList<Integer>();
+        List<Integer> redTeam = new ArrayList<>();
         //蓝队队伍
-        List<Integer> blueTeam = new ArrayList<Integer>();
+        List<Integer> blueTeam = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
             if (i % 2 == 0) {
                 redTeam.add(nums[i]);
@@ -211,7 +217,8 @@ public class fvfServiceImpl implements FvfService {
             }
             //1111111把当前积分相同的名次奖金比例相加1111111111
             index += tempSum;
-            reward = CalDouble.subDouble(CalDouble.div(CalDouble.mul(sumDivideProportion , rewardPool) , index - lastIndex,2) , RegistrationFee);
+            reward = CalDouble.subDouble(CalDouble.div(CalDouble.mul(sumDivideProportion , rewardPool) ,
+                    index - lastIndex,2) , RegistrationFee);
             for (int i = 0; i < index - lastIndex; i++) {
                 checkMoney.add(reward);
             }
@@ -230,5 +237,13 @@ public class fvfServiceImpl implements FvfService {
             pointsDesc.get(i).setCheckMoney(checkMoney.get(i));
         };
         return pointsDesc;
+    }
+
+    @Override
+    public Result getTeamMember() {
+        LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Users::getId,Users::getUsername);
+        List<Users> teamMember = usersService.list(queryWrapper);
+        return Result.success().data("teamMember",teamMember);
     }
 }

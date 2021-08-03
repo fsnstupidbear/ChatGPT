@@ -44,8 +44,8 @@ public class Result {
     public static Result error(){
         Result result = new Result();
         result.setIsSuccess(false);
-        result.setCode(ReturnCode.SERVERERROR.getCode());
-        result.setMessage(ReturnCode.SERVERERROR.getMessage());
+        result.setCode(ReturnCode.OPTION_FAILED.getCode());
+        result.setMessage(ReturnCode.OPTION_FAILED.getMessage());
         return result;
     }
 

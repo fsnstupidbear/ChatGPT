@@ -37,12 +37,20 @@ public class CompetitionsSignUpInfoServiceImpl extends ServiceImpl<CompetitionsS
         CompetitionsSignUpInfo competitionsSignUpInfo = new CompetitionsSignUpInfo();
         competitionsSignUpInfo.setCompetitionId(competitionId);
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        //检验是否已报名
+        LambdaQueryWrapper<CompetitionsSignUpInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(CompetitionsSignUpInfo::getCompetitionId,competitionId);
+        queryWrapper.eq(CompetitionsSignUpInfo::getUserId,id);
+        List<CompetitionsSignUpInfo> list = competitionsSignUpInfoService.list(queryWrapper);
+        if(list!=null&&list.size()>=1){
+            return Result.error().tip("您已报名，无法重复报名！");
+        }
         competitionsSignUpInfo.setUserId(id);
         Users user = usersService.getById(id);
         String username = user.getUsername();
         competitionsSignUpInfo.setUsername(username);
         competitionsSignUpInfoService.save(competitionsSignUpInfo);
-        return Result.success();
+        return Result.success().tip("报名完成！");
     }
 
     @Override
@@ -57,5 +65,16 @@ public class CompetitionsSignUpInfoServiceImpl extends ServiceImpl<CompetitionsS
         }
         List<CompetitionsSignUpInfo> competitionsSignUpInfos = competitionsSignUpInfoService.list(queryWrapper);
         return Result.success().data("competitionsSignUpInfos",competitionsSignUpInfos);
+    }
+
+    @Override
+    public Result cancelSignUp(Map params) {
+        String competitionId = (String) params.get("competitionId");
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        LambdaQueryWrapper<CompetitionsSignUpInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(CompetitionsSignUpInfo::getCompetitionId,competitionId);
+        queryWrapper.eq(CompetitionsSignUpInfo::getUserId,id);
+        competitionsSignUpInfoService.remove(queryWrapper);
+        return Result.success();
     }
 }

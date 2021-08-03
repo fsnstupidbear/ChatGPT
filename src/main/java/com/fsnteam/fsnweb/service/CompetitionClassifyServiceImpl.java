@@ -42,4 +42,10 @@ public class CompetitionClassifyServiceImpl extends ServiceImpl<CompetitionClass
         List<CompetitionClassify> competitionClassifyList = competitionClassifyListPage.getRecords();
         return Result.success().data("competitionClassifyList",competitionClassifyList).data("total",total);
     }
+
+    @Override
+    public Result getAllCompetitionClassify(){
+        List<CompetitionClassify> list = competitionClassifyService.list();
+        return Result.success().data("allCompetitionClassifyList",list);
+    }
 }
