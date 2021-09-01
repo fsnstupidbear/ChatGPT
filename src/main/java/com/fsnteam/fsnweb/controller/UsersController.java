@@ -11,6 +11,8 @@ import com.fsnteam.fsnweb.util.Result;
 import com.fsnteam.fsnweb.util.ReturnCode;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -93,6 +95,23 @@ public class UsersController {
         user.setId(id);
         user.setIsEnabled(isForbidden);
         usersService.updateById(user);
+        return Result.success();
+    }
+
+    @PostMapping("updatePassword")
+    @ApiOperation("修改当前登录用户密码")
+    public Result updatePassword(@RequestBody Map params){
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String oldPassword = (String) params.get("oldPassword");
+        String newPassword = (String) params.get("newPassword");
+        Users user = usersService.getById(userId);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        boolean match = bCryptPasswordEncoder.matches(oldPassword,user.getPassword());
+        String bcNewPassword = bCryptPasswordEncoder.encode(newPassword);
+        if(match){
+            user.setPassword(bcNewPassword);
+            usersService.updateById(user);
+        }
         return Result.success();
     }
 }
