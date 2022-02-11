@@ -4,10 +4,12 @@ import com.fsnteam.fsnweb.bean.User;
 import com.fsnteam.fsnweb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("admin")
+@CrossOrigin
 public class AdminController {
 
     @Autowired

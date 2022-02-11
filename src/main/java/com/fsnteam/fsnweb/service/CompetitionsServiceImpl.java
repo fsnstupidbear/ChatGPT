@@ -98,9 +98,7 @@ public class CompetitionsServiceImpl extends ServiceImpl<CompetitionsMapper, Com
 
     @Override
     public Result deleteCompetitionById(Map params) {
-
         String competitionId = (String) params.get("competitionId");
-        System.out.println("competitionId:"+competitionId);
         competitionsService.removeById(competitionId);
         return Result.success();
     }

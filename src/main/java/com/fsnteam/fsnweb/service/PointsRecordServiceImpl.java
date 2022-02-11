@@ -92,7 +92,10 @@ public class PointsRecordServiceImpl extends ServiceImpl<PointsRecordMapper, Poi
         queryWrapper.select("sum(points) as sumPoints");
         queryWrapper.eq("userid",id);
         PointsRecord sum = pointsRecordService.getOne(queryWrapper);
-        Integer sumPoints = sum.getSumPoints();
+        Integer sumPoints = 0;
+        if(sum != null) {
+            sumPoints = sum.getSumPoints();
+        }
         return Result.success().data("xAxisData",xAxisData).data("seriesData",seriesData)
                 .data("currentMonthPoints",currentMonthPoints).data("sumPoints",sumPoints);
     }

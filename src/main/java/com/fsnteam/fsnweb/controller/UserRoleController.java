@@ -23,6 +23,7 @@ import java.util.Map;
  * @author StupidBear
  * @since 2021-02-24
  */
+@CrossOrigin
 @RestController
 @RequestMapping("userRole")
 public class UserRoleController {
@@ -71,5 +72,14 @@ public class UserRoleController {
         userRoleRelation.setRole(rolesString);
         userRoleRelationService.updateById(userRoleRelation);
         return Result.success().tip("更新角色完成！");
+    }
+
+    @PostMapping("addRole")
+    public Result addRole(@RequestBody Map params){
+        String roleName = (String) params.get("roleName");
+        Role role = new Role();
+        role.setRole(roleName);
+        roleService.save(role);
+        return Result.success();
     }
 }

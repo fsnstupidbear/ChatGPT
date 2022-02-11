@@ -1,8 +1,8 @@
 package com.fsnteam.fsnweb.controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author StupidBear
  * @since 2021-02-25
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/fsnweb/user-role-relation")
 public class UserRoleRelationController {

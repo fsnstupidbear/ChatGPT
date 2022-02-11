@@ -16,10 +16,9 @@ import com.fsnteam.fsnweb.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +33,7 @@ import java.util.Map;
  * @author StupidBear
  * @since 2021-03-08
  */
+@CrossOrigin
 @RestController
 @RequestMapping("whoIsUndercoverGamer")
 public class WhoIsUndercoverGamerController {
@@ -73,6 +73,7 @@ public class WhoIsUndercoverGamerController {
 
     @PostMapping("joinCurrentGame")
     @ApiOperation("加入此局游戏")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Result joinCurrentGame(){
         int count = whoIsUndercoverService.count();
         if(count==0){
@@ -98,7 +99,6 @@ public class WhoIsUndercoverGamerController {
         Integer undercoverNum = whoIsUndercoverConfig.getUndercoverNum();
         int allIdentifyCount = blankNum+civilianNum+undercoverNum;
         //随机分配身份
-        System.out.println(gamerCount+1);
         if(gamerCount+1>=allIdentifyCount){
             List<String> identifyArray = new ArrayList<>();
             for (int i = 0; i < blankNum; i++) {
@@ -137,13 +137,13 @@ public class WhoIsUndercoverGamerController {
 
     @PostMapping("playerGetCurrentGameInfo")
     @ApiOperation("获取玩家身份应获得的信息")
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Result playerGetCurrentGameInfo(@RequestBody Map params){
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         LambdaQueryWrapper<WhoIsUndercoverGamer> queryWrapper1 = new LambdaQueryWrapper<>();
         queryWrapper1.eq(WhoIsUndercoverGamer::getUserID,id);
         queryWrapper1.select(WhoIsUndercoverGamer::getWord);
         WhoIsUndercoverGamer whoIsUndercoverGamer = whoIsUndercoverGamerService.getOne(queryWrapper1);
-        System.out.println(whoIsUndercoverGamer);
         String word = "";
         if(whoIsUndercoverGamer!=null){
             word = whoIsUndercoverGamer.getWord();

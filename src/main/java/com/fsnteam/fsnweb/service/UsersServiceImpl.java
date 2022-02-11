@@ -56,4 +56,33 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         List<Users> records = userspage.getRecords();
         return Result.success().data("total",total).data("records",records);
     }
+
+    @Override
+    public Result getAllUsersNormalInfo(Map params) {
+        //对用户进行分页，泛型中注入的为用户实体类
+        int current = (int) params.get("current");
+        int size = (int) params.get("size");
+        JSONObject jsonobject = JSONObject.parseObject((String) params.get("users"));
+        Users users = JSON.toJavaObject(jsonobject,Users.class);
+        LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Users::getId,Users::getUsername,Users::getVocation,Users::getDepartment,Users::getJoinDate,
+                Users::getQQNumber,Users::getPhoneNumber,Users::getIsEnabled);
+        if(users!=null) {
+            if(StringUtils.isNotBlank(users.getUsername())){
+                queryWrapper.like(Users::getUsername,users.getUsername());
+            }
+            if(StringUtils.isNotBlank(users.getVocation())){
+                queryWrapper.eq(Users::getVocation,users.getVocation());
+            }
+            if(StringUtils.isNotBlank(users.getDepartment())){
+                queryWrapper.eq(Users::getDepartment,users.getDepartment());
+            }
+        }
+        queryWrapper.eq(Users::getIsEnabled,"1");
+        Page<Users> page = new Page<>(current,size);
+        Page<Users> userspage = usersService.page(page,queryWrapper);
+        long total = userspage.getTotal();
+        List<Users> records = userspage.getRecords();
+        return Result.success().data("total",total).data("records",records);
+    }
 }

@@ -20,4 +20,6 @@ public interface UsersService extends IService<Users> {
      * @return
      */
     public Result getAllUsers(Map params);
+
+    Result getAllUsersNormalInfo(Map params);
 }

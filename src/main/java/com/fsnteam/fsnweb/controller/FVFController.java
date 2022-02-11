@@ -16,10 +16,7 @@ import com.fsnteam.fsnweb.util.FVF;
 import com.fsnteam.fsnweb.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +53,7 @@ import java.util.Map;
  * 计算并存入Map返回给后端，存入数据库
 
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/FVF")
 public class FVFController {
@@ -126,7 +124,11 @@ public class FVFController {
             pointsRecord.setUserid(fvfRecord.getUserid());
             pointsRecord.setReason("Fsn队内擂台");
             pointsRecord.setDate(new Date());
-            pointsRecordList.add(pointsRecord);
+            if(pointsRecord.getPoints().equals(0)){
+
+            }else {
+                pointsRecordList.add(pointsRecord);
+            }
         }
         pointsRecordService.saveBatch(pointsRecordList);
         //清空分组器
@@ -180,7 +182,6 @@ public class FVFController {
     public Result getTeamMember(){
         return fvfService.getTeamMember();
     }
-
 
     //根据username查询ID
     public Integer selectIdByUsername(List<Users> teamMember,String username){

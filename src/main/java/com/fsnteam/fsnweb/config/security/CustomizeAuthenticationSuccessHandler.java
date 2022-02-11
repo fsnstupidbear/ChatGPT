@@ -31,5 +31,6 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         httpServletResponse.setContentType("text/json;charset=utf-8");
         //塞到HttpServletResponse中返回给前台
         httpServletResponse.getWriter().write(JSON.toJSONString(Result.success()));
+        httpServletResponse.setHeader("Access-Control-Allow-Origin","http://fsnteam.com:80");
     }
 }

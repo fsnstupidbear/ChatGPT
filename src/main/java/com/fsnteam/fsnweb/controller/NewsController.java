@@ -4,11 +4,7 @@ package com.fsnteam.fsnweb.controller;
 import com.fsnteam.fsnweb.service.NewsService;
 import com.fsnteam.fsnweb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -20,6 +16,7 @@ import java.util.Map;
  * @author StupidBear
  * @since 2021-03-27
  */
+@CrossOrigin
 @RestController
 @RequestMapping("news")
 public class NewsController {

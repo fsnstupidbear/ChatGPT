@@ -8,6 +8,7 @@ import com.fsnteam.fsnweb.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ import java.util.List;
  * @author StupidBear
  * @since 2021-01-10
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/vocations")
 public class VocationsController {

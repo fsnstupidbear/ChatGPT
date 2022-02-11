@@ -35,6 +35,7 @@ public class FVFhistoryServiceImpl extends ServiceImpl<FVFhistoryMapper, FVFhist
         int size = (int) params.get("size");
         LambdaQueryWrapper<FVFhistory> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(FVFhistory::getId,FVFhistory::getDate,FVFhistory::getResult);
+        queryWrapper.orderByDesc(FVFhistory::getDate);
         Page<FVFhistory> page = new Page<>(current,size);
         Page<FVFhistory> fvFhistorypage = fvFhistoryService.page(page,queryWrapper);
         long total = fvFhistorypage.getTotal();

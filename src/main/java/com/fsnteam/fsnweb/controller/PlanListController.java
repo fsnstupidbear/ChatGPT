@@ -5,13 +5,12 @@ import com.fsnteam.fsnweb.entity.PlanList;
 import com.fsnteam.fsnweb.service.PlanListService;
 import com.fsnteam.fsnweb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -21,6 +20,7 @@ import java.util.Map;
  * @author StupidBear
  * @since 2021-03-23
  */
+@CrossOrigin
 @RestController
 @RequestMapping("trainingPlanList")
 public class PlanListController {

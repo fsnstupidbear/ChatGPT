@@ -8,4 +8,6 @@ import java.util.Map;
 @Service
 public interface IUsersService {
     public Result getAllUsers(Map params);
+
+    public Result getAllUsersNormalInfo(Map params);
 }

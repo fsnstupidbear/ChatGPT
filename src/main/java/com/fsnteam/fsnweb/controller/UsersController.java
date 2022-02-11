@@ -41,6 +41,12 @@ public class UsersController {
      *
      * @return
      */
+    @PostMapping("/getAllUsersNormalInfo")
+    public Result getAllUsersNormalInfo(@RequestBody Map params) {
+
+        return usersService.getAllUsersNormalInfo(params);
+    }
+
     @PostMapping(value = "/getAllUsers", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "查询全部用户", notes = "")
     public Result getAllUsers(@RequestBody Map params) {

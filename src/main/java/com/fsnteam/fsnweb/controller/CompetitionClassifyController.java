@@ -6,10 +6,7 @@ import com.fsnteam.fsnweb.service.CompetitionClassifyService;
 import com.fsnteam.fsnweb.util.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -22,6 +19,7 @@ import java.util.Map;
  * @since 2021-03-15
  */
 @RestController
+@CrossOrigin
 @RequestMapping("competitionClassify")
 public class CompetitionClassifyController {
 
