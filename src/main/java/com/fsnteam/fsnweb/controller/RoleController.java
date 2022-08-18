@@ -1,6 +1,7 @@
 package com.fsnteam.fsnweb.controller;
 
 
+import com.fsnteam.fsnweb.entity.Role;
 import com.fsnteam.fsnweb.service.RoleService;
 import com.fsnteam.fsnweb.util.Result;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,12 @@ public class RoleController {
         int current = (int)params.get("current");
         int size = (int) params.get("size");
         return roleService.getAllRoles(role,current,size);
+    }
+
+    @PostMapping("disabledRole")
+    @ApiOperation(value = "禁用角色")
+    public Result disabledRole(@RequestBody Map params){
+        return roleService.disabledRole(params);
     }
 }
 

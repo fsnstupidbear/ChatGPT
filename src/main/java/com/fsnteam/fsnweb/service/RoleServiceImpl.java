@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -37,5 +38,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         long total = rolePage.getTotal();
         List<Role> rolesList = rolePage.getRecords();
         return Result.success().data("rolesList",rolesList).data("total",total);
+    }
+
+    @Override
+    public Result disabledRole(Map params) {
+        Role role = new Role();
+        role.setRole((String) params.get("id"));
+        role.setDisabled(false);
+        roleService.updateById(role);
+        return Result.success();
     }
 }

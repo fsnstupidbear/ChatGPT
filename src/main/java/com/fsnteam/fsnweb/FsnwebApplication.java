@@ -14,5 +14,4 @@ public class FsnwebApplication {
     public static void main(String[] args) {
         SpringApplication.run(FsnwebApplication.class, args);
     }
-
 }

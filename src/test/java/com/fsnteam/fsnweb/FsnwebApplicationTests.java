@@ -34,7 +34,6 @@ public class FsnwebApplicationTests{
         Map<String,List> teaminfo=new HashMap<String,List>();
         teaminfo.put("redTeam",redTeam);
         teaminfo.put("blueTeam",blueTeam);
-//        System.out.println("红队："+redTeam+"蓝队："+blueTeam);
         return teaminfo;
     }
 

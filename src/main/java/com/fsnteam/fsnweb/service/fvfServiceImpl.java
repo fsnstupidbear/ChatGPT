@@ -120,6 +120,7 @@ public class fvfServiceImpl implements FvfService {
         divideRB(randNums(reqNum));
     }
 
+//    生成需求数量的随机数
     @Override
     public Integer[] randNums(int reqNum) {
         Integer[] nums = new Integer[reqNum];
@@ -243,6 +244,7 @@ public class fvfServiceImpl implements FvfService {
     public Result getTeamMember() {
         LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(Users::getId,Users::getUsername);
+        queryWrapper.eq(Users::getIsEnabled,"1");
         List<Users> teamMember = usersService.list(queryWrapper);
         return Result.success().data("teamMember",teamMember);
     }

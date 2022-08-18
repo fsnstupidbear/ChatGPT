@@ -61,6 +61,7 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
             queryWrapper.like(News::getTitle,title);
         }
         queryWrapper.eq(News::getType,"1");
+        queryWrapper.orderByDesc(News::getUpdateDate);
         Page<News> page = new Page<>(current,size);
         Page<News> newspage = newsService.page(page,queryWrapper);
         long total = newspage.getTotal();
@@ -109,6 +110,7 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
             queryWrapper.like(News::getTitle,title);
         }
         queryWrapper.eq(News::getType,"2");
+        queryWrapper.orderByDesc(News::getUpdateDate);
         Page<News> page = new Page<>(current,size);
         Page<News> newspage = newsService.page(page,queryWrapper);
         long total = newspage.getTotal();
