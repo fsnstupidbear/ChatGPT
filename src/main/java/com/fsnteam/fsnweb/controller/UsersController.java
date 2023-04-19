@@ -73,9 +73,9 @@ public class UsersController {
         usersService.save(user);
         UserRole userRole=new UserRole();
         userRole.setUserID(user.getId());
-        userRole.setRole("队员");
+        userRole.setRole("user");
         userMapper.insertRole(userRole);
-        return Result.success().tip("添加新队员信息完成");
+        return Result.success().tip("添加新用户信息完成");
     }
 
     @PostMapping("updateUserById")

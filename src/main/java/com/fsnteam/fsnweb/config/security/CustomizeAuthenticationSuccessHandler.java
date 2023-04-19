@@ -22,10 +22,8 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         //更新用户表上次登录时间、更新人、更新时间等字段
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         //此处还可以进行一些处理，比如登录成功之后可能需要返回给前台当前用户有哪些菜单权限，
         //进而前台动态的控制菜单的显示等，具体根据自己的业务需求进行扩展
-
         //返回json数据
         //处理编码方式，防止中文乱码的情况
         httpServletResponse.setContentType("text/json;charset=utf-8");
@@ -34,6 +32,7 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         //cors限制访问源
         //部署时：http://fsnteam.com
         //本地：http://localhost:8081
-        httpServletResponse.setHeader("Access-Control-Allow-Origin","http://fsnteam.com");
+        //华沙：94.156.99.10
+        httpServletResponse.setHeader("Access-Control-Allow-Origin","http://94.156.99.10");
     }
 }
