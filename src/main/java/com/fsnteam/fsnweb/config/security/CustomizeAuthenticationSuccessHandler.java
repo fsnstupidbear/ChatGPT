@@ -30,9 +30,8 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         //塞到HttpServletResponse中返回给前台
         httpServletResponse.getWriter().write(JSON.toJSONString(Result.success()));
         //cors限制访问源
-        //部署时：http://fsnteam.com
         //本地：http://localhost:8081
         //华沙：94.156.99.10
-        httpServletResponse.setHeader("Access-Control-Allow-Origin","http://94.156.99.10");
+        httpServletResponse.setHeader("Access-Control-Allow-Origin","http://localhost:8081");
     }
 }
